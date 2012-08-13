@@ -6,7 +6,7 @@
 //#include "SerialEventArgs.h"
 
 class testApp : public ofBaseApp{
-
+	
 public:
 	void setup();
 	void update();
@@ -21,17 +21,16 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
-	
+
+private:
 	// serial comm and other setup variable
 	bool autoPilot;
-	ofSerial mySerial;
-	
+	ofSerial mySerial;	
+	bool setupSerial();
+	bool readSerial();
+
 	ofEvent<serialEventArgs> serialEvent;
 	StaticScene sss;
-	
-private:
-	unsigned char tmpId, tmpType, tmpVal;
-	bool setupSerial();	
 };
 
 #endif
