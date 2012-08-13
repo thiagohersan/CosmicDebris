@@ -1,0 +1,13 @@
+## executables
+bin/*
+build/
+
+## mac os crap
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+## unignor data
+!bin/data/
