@@ -3,7 +3,8 @@ bin/*
 build/
 
 ## Xcode crap
-cosmicDebrisOF.xcodeproj/user.*
+cosmicDebrisOF.xcodeproj/*.mode1v3
+cosmicDebrisOF.xcodeproj/*.pbxuser
 
 ## mac os crap
 .DS_Store
