@@ -30,16 +30,31 @@ void Morphable::setType(int type){
 		targetType = type%TYPE_SIZE;
 		
 		// most shapes don't use beziers, so clear them here and set them up later if needed
-		for(int i=0; i<NUM_OF_POINTS; i++){
+		for(int i=0; i<targetLeftBez.size(); i++){
 			targetLeftBez.at(i).set(0,0);
 			targetRightBez.at(i).set(0,0);
 		}	
 		
 		// set up all the target vectors
+		// TODO: fill this out !!!!
 		switch (targetType) {
 			case TYPE_SQUARE:
-				// use for loop and radians
-				//
+				// TODO: use for loop and radians
+				targetPoints.at(0).set(-1,-1);
+				targetPoints.at(1).set(-1/3,-1);
+				targetPoints.at(2).set(1/3,-1);
+
+				targetPoints.at(3).set(1,-1);
+				targetPoints.at(4).set(1,-1/3);
+				targetPoints.at(5).set(1,1/3);
+
+				targetPoints.at(6).set(1,1);
+				targetPoints.at(7).set(1/3,1);
+				targetPoints.at(8).set(-1/3,1);
+
+				targetPoints.at(9).set(-1,1);
+				targetPoints.at(10).set(-1,1/3);
+				targetPoints.at(11).set(-1,-1/3);
 				break;
 			default:
 				// do nothing
@@ -57,7 +72,7 @@ void Morphable::setType(int type){
 void Morphable::setSize(float size){
 	// if the new size is different than the current size, go morph
 	if(size != targetSize) {
-		targetSize = ofMap(size, 0, 1, 50, 400);
+		targetSize = ofMap(size, 0, 1, 30, 400);
 		currState = STATE_MORPHING;
 	}
 }
@@ -82,11 +97,46 @@ void Morphable::draw(float x, float y, float v){
 void Morphable::draw(float x, float y, ofColor c){
 	this->draw(x,y,0,c);
 }
+
+// TODO: TEST THIS!!!
 void Morphable::draw(float x, float y, float v, ofColor c){
 	// take a step before drawing
 	if(currState == STATE_MORPHING) {
 		this->morphStep();
 	}
+
+	// reminder: currSize:=[50,400]
+	//           v:=pixels
+	ofPoint rp = ofPoint(ofRandom(-v, v), ofRandom(-v, v));
+	float alpha = (currSize<100)?255.0:(ofMap(currSize,100,400,255,0));
+	ofEnableAlphaBlending();
+	ofSetColor(ofColor(c,alpha));
+	ofFill();
+
+	ofBeginShape();
+	for(int i=0; i<currPoints.size(); i++){
+		// bezier polygon. two vertex points and two control points
+		ofPoint v0 = ofPoint(x,y) + currSize*currPoints.at((i+0)%currPoints.size());
+		ofPoint v1 = ofPoint(x,y) + currSize*currPoints.at((i+1)%currPoints.size());
+		// c0 is to the right of vertex i
+		// c1 is to the left of vertex i+1
+		ofPoint c0 = v0 + currSize*currRightBez.at((i+0)%currPoints.size());
+		ofPoint c1 = v1 + currSize*currLeftBez.at((i+1)%currPoints.size());
+
+		// add variation
+		v0 += rp;
+		v1 += rp;
+		c0 += rp;
+		c1 += rp;
+
+		// finally
+		ofVertex(v0);
+		// pinche ofBezierCurve...
+		ofBezierVertex(c0.x,c0.y, c1.x,c1.y, v1.x,v1.y);
+	}
+	ofEndShape();
+	ofDisableAlphaBlending();
+	
 }
 
 void Morphable::morphStep(){

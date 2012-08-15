@@ -52,7 +52,9 @@ void testApp::setup(){
 	
 	// screen setup
 	ofSetCircleResolution(100);
-	//ofSetVerticalSync(true);
+	ofSetVerticalSync(true);
+	// other setup
+	ofSetRectMode(OF_RECTMODE_CENTER);
 }
 
 //--------------------------------------------------------------
@@ -60,21 +62,33 @@ void testApp::update(){
 	// read serial
 	this->readSerial();
 	
-	// test
+	// autopilot
 	d.setType((ofGetFrameNum()/300));
-	d.setSize(0.5 + (ofNoise((float)(ofGetFrameNum())/1000,(float)(ofGetFrameNum())/500)-0.5));
+	d.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
+	d.setSize(0.2); // just touching
+
+	///
+	m.setType(1);
+	m.setSize(0.1);	// just touching
+	//m.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
+	
+	// test
 	if(ofGetFrameNum()%100 == 0){
 		printf("%d:= %f\n",d.getType(),ofGetFrameRate());
-	}	
+	}
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
 	ofBackground(0,0,0);
+	// autopilot
+	float hue = ofMap(ofNoise(ofGetFrameNum()/500.0, ofGetFrameNum()/2000.0), 0,1, 0,255);
+	ofColor cc = ofColor::fromHsb(hue, 255, 255);
 	// test
 	for(int i=100; i<ofGetHeight(); i+=200){
 		for(int j=100; j<ofGetWidth(); j+=200){
-			d.draw(j,i,ofRandom(20));
+			//d.draw(j,i, ofRandom(5.0), cc);
+			m.draw(j,i, ofRandom(15), cc);
 		}
 	}
 }
