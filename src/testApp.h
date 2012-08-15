@@ -4,7 +4,7 @@
 #include "ofMain.h"
 #include "StaticScene.h"
 #include "Drawable.h"
-//#include "SerialEventArgs.h"
+#include "Morphable.h"
 
 class testApp : public ofBaseApp{
 	
@@ -34,6 +34,7 @@ private:
 	StaticScene sss;
 	
 	Drawable d;
+	Morphable m;
 };
 
 #endif

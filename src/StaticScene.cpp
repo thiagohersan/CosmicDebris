@@ -1,5 +1,9 @@
 #include "StaticScene.h"
 
+/* TODO:
+	- read values from serial and update frequency, colors, shape variables, etc
+*/
+
 StaticScene::StaticScene(){
 	digitalVal = 0;
 }
@@ -17,8 +21,6 @@ void StaticScene::draw(){
 }
 
 /**/
-// TODO:
-//   - setup local variables based on new values of 
 void StaticScene::onSerialEvent(serialEventArgs &a){
 	unsigned char type_ = a.type_;
 	unsigned char id_ = a.id_;

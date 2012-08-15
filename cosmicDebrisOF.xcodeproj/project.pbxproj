@@ -10,6 +10,7 @@
 		8484CEAF15D8DB5400298AB4 /* StaticScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8484CEAE15D8DB5400298AB4 /* StaticScene.cpp */; };
 		84C9FB7515DB53DD007EAED3 /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C9FB7415DB53DD007EAED3 /* Canvas.cpp */; };
 		84C9FB7915DB5549007EAED3 /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C9FB7815DB5549007EAED3 /* Drawable.cpp */; };
+		84C9FC8015DB6F7F007EAED3 /* Morphable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C9FC7F15DB6F7F007EAED3 /* Morphable.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworks.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -68,6 +69,8 @@
 		84C9FB7615DB5440007EAED3 /* Geometricable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometricable.h; sourceTree = "<group>"; };
 		84C9FB7715DB5549007EAED3 /* Drawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Drawable.h; sourceTree = "<group>"; };
 		84C9FB7815DB5549007EAED3 /* Drawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawable.cpp; sourceTree = "<group>"; };
+		84C9FC7E15DB6F7F007EAED3 /* Morphable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Morphable.h; sourceTree = "<group>"; };
+		84C9FC7F15DB6F7F007EAED3 /* Morphable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Morphable.cpp; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -194,6 +197,8 @@
 				84C9FB7615DB5440007EAED3 /* Geometricable.h */,
 				84C9FB7715DB5549007EAED3 /* Drawable.h */,
 				84C9FB7815DB5549007EAED3 /* Drawable.cpp */,
+				84C9FC7E15DB6F7F007EAED3 /* Morphable.h */,
+				84C9FC7F15DB6F7F007EAED3 /* Morphable.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -295,6 +300,7 @@
 				8484CEAF15D8DB5400298AB4 /* StaticScene.cpp in Sources */,
 				84C9FB7515DB53DD007EAED3 /* Canvas.cpp in Sources */,
 				84C9FB7915DB5549007EAED3 /* Drawable.cpp in Sources */,
+				84C9FC8015DB6F7F007EAED3 /* Morphable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

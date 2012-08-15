@@ -13,7 +13,6 @@ Drawable::Drawable(){
 	mySize = 0.0;
 	myType = TYPE_CIRCLE;
 }
-
 Drawable::~Drawable(){
 }
 
@@ -26,7 +25,7 @@ void Drawable::setType(int type){
 void Drawable::setSize(float size){
 	mySize = size;
 }
-
+// for debugging
 int Drawable::getType(){
 	return myType;
 }
@@ -34,16 +33,15 @@ int Drawable::getType(){
 // x,y are the center coordinates
 // x,y,v are in pixels
 void Drawable::draw(float x, float y){
-	draw(x,y,0,ofColor(255,255,255));
+	this->draw(x,y,0,ofColor(255,255,255));
 }
 void Drawable::draw(float x, float y, float v){
-	draw(x,y,v,ofColor(255,255,255));
+	this->draw(x,y,v,ofColor(255,255,255));
 }
 void Drawable::draw(float x, float y, ofColor c){
-	draw(x,y,0,c);
+	this->draw(x,y,0,c);
 }
 void Drawable::draw(float x, float y, float v, ofColor c){
-	// fudeu..
 	float rad = 0;
 	int alpha = 255;
 	switch (myType) {

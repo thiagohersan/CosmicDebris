@@ -1,7 +1,6 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-//#include "SerialEventArgs.h"
 #include "ofEvents.h"
 
 #define NUM_ANALOG 6
@@ -13,7 +12,6 @@ public:
 	unsigned char id_;
 	unsigned char value_;
 };
-
 
 class Scene {
 	
