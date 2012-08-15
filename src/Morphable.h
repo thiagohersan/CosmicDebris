@@ -11,6 +11,8 @@
 #define NUM_OF_POINTS 12
 // period for morphing between shapes
 #define MORPH_PERIOD 10
+// math constants
+//#define SQRT2 1.41421356237
 
 class Morphable: public Geometricable {
 	

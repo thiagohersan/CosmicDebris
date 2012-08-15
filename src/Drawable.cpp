@@ -85,7 +85,7 @@ void Drawable::draw(float x, float y, float v, ofColor c){
 			ofRect(x+ofRandom(-v,v), y+ofRandom(-v,v), rad, 2*rad);
 			ofDisableAlphaBlending();
 			break;
-		case TYPE_CROSS:
+		case TYPE_CROSS: {
 			// turn into pixels
 			rad = ofMap(mySize, 0,1, 25,400);
 			alpha = (mySize<0.2)?255.0:(ofMap(mySize,0.2,1,255,0));
@@ -97,6 +97,7 @@ void Drawable::draw(float x, float y, float v, ofColor c){
 			ofRect(x+rx, y+ry, rad, 2*rad);
 			ofRect(x+rx, y+ry, 2*rad, rad);
 			ofDisableAlphaBlending();
+		}
 			break;
 		default:
 			// don't draw anything
