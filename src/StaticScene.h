@@ -1,7 +1,6 @@
 #ifndef STATICSCENE_H
 #define STATICSCENE_H
 
-
 #include "Scene.h"
 
 class StaticScene: public Scene {

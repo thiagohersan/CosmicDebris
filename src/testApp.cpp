@@ -22,7 +22,7 @@ bool testApp::setupSerial(){
 bool testApp::readSerial(){
 	// read 4 bytes at a time
 	//   use while()?
-	if(mySerial.available() >= 4) {
+	if((!autoPilot) && (mySerial.available() >= 4)) {
 		// read 4 bytes
 		unsigned char tmpSerialBuf[4];
 		mySerial.readBytes(tmpSerialBuf, 4);
@@ -49,17 +49,34 @@ void testApp::setup(){
 	autoPilot = !setupSerial();
 	// add a listener to the staticScene object
 	ofAddListener(serialEvent, &sss, &StaticScene::onSerialEvent);
+	
+	// screen setup
+	ofSetCircleResolution(100);
+	//ofSetVerticalSync(true);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+	// read serial
 	this->readSerial();
 	
+	// test
+	d.setType((ofGetFrameNum()/300));
+	d.setSize(0.5 + (ofNoise((float)(ofGetFrameNum())/1000,(float)(ofGetFrameNum())/500)-0.5));
+	if(ofGetFrameNum()%100 == 0){
+		printf("%d:= %f\n",d.getType(),ofGetFrameRate());
+	}	
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	
+	ofBackground(0,0,0);
+	// test
+	for(int i=100; i<ofGetHeight(); i+=200){
+		for(int j=100; j<ofGetWidth(); j+=200){
+			d.draw(j,i,ofRandom(20));
+		}
+	}
 }
 
 //--------------------------------------------------------------

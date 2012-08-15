@@ -3,6 +3,7 @@
 
 #include "ofMain.h"
 #include "StaticScene.h"
+#include "Drawable.h"
 //#include "SerialEventArgs.h"
 
 class testApp : public ofBaseApp{
@@ -25,12 +26,14 @@ public:
 private:
 	// serial comm and other setup variable
 	bool autoPilot;
-	ofSerial mySerial;	
+	ofSerial mySerial;
 	bool setupSerial();
 	bool readSerial();
 
 	ofEvent<serialEventArgs> serialEvent;
 	StaticScene sss;
+	
+	Drawable d;
 };
 
 #endif
