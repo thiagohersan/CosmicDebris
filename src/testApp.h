@@ -5,6 +5,8 @@
 #include "StaticScene.h"
 #include "Drawable.h"
 #include "Morphable.h"
+#include "SerialEventArgs.h"
+#include "Canvas.h"
 
 class testApp : public ofBaseApp{
 	
@@ -31,7 +33,7 @@ private:
 	bool readSerial();
 
 	ofEvent<serialEventArgs> serialEvent;
-	StaticScene sss;
+	Canvas c;
 	
 	Drawable d;
 	Morphable m;

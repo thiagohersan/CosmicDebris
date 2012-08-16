@@ -71,6 +71,7 @@
 		84C9FB7815DB5549007EAED3 /* Drawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawable.cpp; sourceTree = "<group>"; };
 		84C9FC7E15DB6F7F007EAED3 /* Morphable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Morphable.h; sourceTree = "<group>"; };
 		84C9FC7F15DB6F7F007EAED3 /* Morphable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Morphable.cpp; sourceTree = "<group>"; };
+		84C9FEA915DD3F16007EAED3 /* SerialEventArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialEventArgs.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -199,6 +200,7 @@
 				84C9FB7815DB5549007EAED3 /* Drawable.cpp */,
 				84C9FC7E15DB6F7F007EAED3 /* Morphable.h */,
 				84C9FC7F15DB6F7F007EAED3 /* Morphable.cpp */,
+				84C9FEA915DD3F16007EAED3 /* SerialEventArgs.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

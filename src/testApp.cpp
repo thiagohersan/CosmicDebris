@@ -47,8 +47,8 @@ bool testApp::readSerial(){
 void testApp::setup(){
 	// determine autoPilot and Serial port
 	autoPilot = !setupSerial();
-	// add a listener to the staticScene object
-	ofAddListener(serialEvent, &sss, &StaticScene::onSerialEvent);
+	// add a listener for the Canvas object
+	ofAddListener(serialEvent, &c, &Canvas::onSerialEvent);
 	
 	// screen setup
 	ofSetCircleResolution(100);
@@ -68,7 +68,7 @@ void testApp::update(){
 	d.setSize(0.2); // just touching
 
 	///
-	m.setType(4);
+	m.setType(0);
 	m.setSize(0.1);	// just touching
 	//m.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
 	

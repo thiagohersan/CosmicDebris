@@ -6,7 +6,7 @@
 class StaticScene: public Scene {
 	
 public:
-	StaticScene();
+	StaticScene(char* aVals_, char* dVals_, int* dVal_);
 	~StaticScene();
 	void setup();
 	void update();

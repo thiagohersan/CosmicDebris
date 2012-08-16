@@ -1,17 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "ofEvents.h"
-
-#define NUM_ANALOG 6
-#define NUM_DIGITAL 6
-
-class serialEventArgs : public ofEventArgs{
-public:
-	unsigned char type_;
-	unsigned char id_;
-	unsigned char value_;
-};
+#include "SerialEventArgs.h"
 
 class Scene {
 	
@@ -28,9 +18,9 @@ class Scene {
 	
 protected:
 	// invariant: these are always up to date
-	char analogVals[NUM_ANALOG];
-	char digitalVals[NUM_DIGITAL];
-	int digitalVal;
+	char* analogVals;
+	char* digitalVals;
+	int* digitalVal;
 };
 
 #endif
