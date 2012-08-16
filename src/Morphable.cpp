@@ -36,10 +36,18 @@ void Morphable::setType(int type){
 		}	
 		
 		// set up all the target vectors
-		// TODO: fill this out !!!!
-		// TODO: use for loop and radians
 		// TODO: {TYPE_CIRCLE, TYPE_KAHANE, TYPE_UNO};
 		switch (targetType) {
+			case TYPE_CIRCLE: {
+				// TODO: add target beziers
+				for(int i=0; i<targetPoints.size(); i++){
+					float angle = ofDegToRad(15+i*30);
+					float px = ofClamp(cos(angle), -1, 1);
+					float py = ofClamp(sin(angle), -1, 1);
+					targetPoints.at(i).set(px,py);
+				}
+			}
+				break;
 			case TYPE_SQUARE: {
 				float sqrt2 = sqrt(2);
 				for(int i=0; i<targetPoints.size(); i++){
@@ -97,7 +105,6 @@ void Morphable::setType(int type){
 				}
 			}
 				break;
-				
 			default:
 				// do nothing
 				break;
@@ -140,7 +147,6 @@ void Morphable::draw(float x, float y, ofColor c){
 	this->draw(x,y,0,c);
 }
 
-// TODO: TEST THIS!!!
 void Morphable::draw(float x, float y, float v, ofColor c){
 	// take a step before drawing
 	if(currState == STATE_MORPHING) {
@@ -173,7 +179,7 @@ void Morphable::draw(float x, float y, float v, ofColor c){
 		
 		// finally
 		ofVertex(v0);
-		// pinche ofBezierCurve...
+		// pinche ofBezierCurve... doesn't accept ofPoints
 		ofBezierVertex(c0.x,c0.y, c1.x,c1.y, v1.x,v1.y);
 	}
 	ofEndShape();
@@ -196,15 +202,29 @@ void Morphable::morphStep(){
 		//   if the target points and curr points aren't the same, keep morphing
 		if(targetType != currType){
 			bool samePoints = true;
+			// move vertex points
 			for(int i=0; i<currPoints.size(); i++){
 				// set current points to be 95% current values and 5% target values
 				ofPoint cp = currPoints.at(i);
 				ofPoint tp = targetPoints.at(i);
 				currPoints.at(i).set(0.95*cp + 0.05*tp);
-				// check if these 2 points are the same
+				// check if the new point is the same as the target
 				samePoints = samePoints && (tp.distance(currPoints.at(i)) < 0.01);
 			}
-			
+			// move bezier points
+			//   assume currLeftBez.size() == currRightBez.size()
+			for(int i=0; (i<currLeftBez.size())&&(i<currRightBez.size()); i++){
+				// set current points to be 95% current values and 5% target values
+				ofPoint clb = currLeftBez.at(i);
+				ofPoint tlb = targetLeftBez.at(i);
+				currLeftBez.at(i).set(0.95*clb + 0.05*tlb);
+				ofPoint crb = currRightBez.at(i);
+				ofPoint trb = targetRightBez.at(i);
+				currRightBez.at(i).set(0.95*crb + 0.05*trb);
+				// check if the new points are the same as the targets
+				samePoints = samePoints && (tlb.distance(currLeftBez.at(i)) < 0.01) && (trb.distance(currRightBez.at(i)) < 0.01);
+			}
+
 			// if all points are the same, then we're done morphing type
 			if(samePoints == true){
 				currType = targetType;
