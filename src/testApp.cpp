@@ -68,7 +68,7 @@ void testApp::update(){
 	d.setSize(0.2); // just touching
 
 	///
-	m.setType(3);
+	m.setType(4);
 	m.setSize(0.1);	// just touching
 	//m.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
 	

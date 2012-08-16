@@ -38,7 +38,7 @@ void Morphable::setType(int type){
 		// set up all the target vectors
 		// TODO: fill this out !!!!
 		// TODO: use for loop and radians
-		// TODO: {TYPE_CIRCLE, TYPE_CROSS, TYPE_KAHANE, TYPE_UNO, TYPE_SIZE};
+		// TODO: {TYPE_CIRCLE, TYPE_KAHANE, TYPE_UNO};
 		switch (targetType) {
 			case TYPE_SQUARE: {
 				float sqrt2 = sqrt(2);
@@ -66,6 +66,33 @@ void Morphable::setType(int type){
 					float angle = ofDegToRad(i*30);
 					float px = ofClamp(cos(angle), -0.5, 0.5);
 					float py = ofClamp(sin(angle), -sqrt32, sqrt32);
+					targetPoints.at(i).set(px,py);
+				}
+			}
+				break;
+			case TYPE_CROSS: {
+				// for irregular angle stepping
+				//   want to hit 30,45,60,120,135,150,...
+				float angle = ofDegToRad(30);
+				float sqrt24 = sqrt(2)/4.0;
+				float twosqrt3 = 2.0/sqrt(3);
+				for(int i=0; i<targetPoints.size(); i++){
+					// length of cross arm = 1.0
+					//    width of cross arm = 2/sqrt(3)
+					float px = twosqrt3*cos(angle);
+					float py = twosqrt3*sin(angle);
+
+					// clamp shortest side, or when sides are equal
+					if(fabs(px) < 0.99){
+						px = ofClamp(px, -sqrt24, sqrt24);
+					}
+					if(fabs(py) < 0.99){
+						py = ofClamp(py, -sqrt24, sqrt24);
+					}
+
+					// angle increments are: 15,15,60,15,15,60,...
+					angle += ofDegToRad(((i%3)/2)*45+15);
+
 					targetPoints.at(i).set(px,py);
 				}
 			}
