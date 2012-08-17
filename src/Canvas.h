@@ -31,10 +31,10 @@ public:
 	
 protected:
 	// invariant: these are always up to date
-	char analogVals[NUM_ANALOG];
-	char digitalVals[NUM_DIGITAL];
+	unsigned char analogVals[NUM_ANALOG];
+	unsigned char digitalVals[NUM_DIGITAL];
 	int digitalVal;
-	
+
 	enum StateEnum {STATE_STEADY, STATE_FADING};
 	enum SceneEnum {SCENE_STATIC, SCENE_GEOMETRY, SCENE_IMAGE};
 
