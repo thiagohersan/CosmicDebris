@@ -12,6 +12,7 @@
 Drawable::Drawable(){
 	mySize = 0.0;
 	myType = TYPE_CIRCLE;
+	myColor = ofColor(0,0,0);
 }
 Drawable::~Drawable(){
 }
@@ -25,6 +26,12 @@ void Drawable::setType(int type){
 void Drawable::setSize(float size){
 	mySize = size;
 }
+
+// set the color of the shape
+void Drawable::setColor(ofColor color){
+	myColor = color;
+}
+
 // for debugging
 int Drawable::getType(){
 	return myType;
@@ -33,15 +40,9 @@ int Drawable::getType(){
 // x,y are the center coordinates
 // x,y,v are in pixels
 void Drawable::draw(float x, float y){
-	this->draw(x,y,0,ofColor(255,255,255));
+	this->draw(x,y,0);
 }
 void Drawable::draw(float x, float y, float v){
-	this->draw(x,y,v,ofColor(255,255,255));
-}
-void Drawable::draw(float x, float y, ofColor c){
-	this->draw(x,y,0,c);
-}
-void Drawable::draw(float x, float y, float v, ofColor c){
 	float rad = 0;
 	float alpha = 255.0;
 	switch (myType) {
@@ -50,7 +51,7 @@ void Drawable::draw(float x, float y, float v, ofColor c){
 			rad = ofMap(mySize, 0,1, 20,400);
 			alpha = (mySize<0.25)?255.0:(ofMap(mySize,0.25,1,255,0));
 			ofEnableAlphaBlending();
-			ofSetColor(ofColor(c,alpha));
+			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			ofCircle(x+ofRandom(-v,v), y+ofRandom(-v,v), rad);
 			ofDisableAlphaBlending();
@@ -60,7 +61,7 @@ void Drawable::draw(float x, float y, float v, ofColor c){
 			rad = ofMap(mySize, 0,1, 25,400);
 			alpha = (mySize<0.3)?255.0:(ofMap(mySize,0.3,1,255,0));
 			ofEnableAlphaBlending();
-			ofSetColor(ofColor(c,alpha));
+			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			ofRect(x+ofRandom(-v,v), y-ofRandom(-v,v), 2*rad, 2*rad);
 			ofDisableAlphaBlending();
@@ -70,7 +71,7 @@ void Drawable::draw(float x, float y, float v, ofColor c){
 			rad = ofMap(mySize, 0,1, 25,400);
 			alpha = (mySize<0.3)?255.0:(ofMap(mySize,0.3,1,255,0));
 			ofEnableAlphaBlending();
-			ofSetColor(ofColor(c,alpha));
+			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			ofRect(x+ofRandom(-v,v), y+ofRandom(-v,v), 2*rad, rad);
 			ofDisableAlphaBlending();
@@ -80,7 +81,7 @@ void Drawable::draw(float x, float y, float v, ofColor c){
 			rad = ofMap(mySize, 0,1, 25,400);
 			alpha = (mySize<0.3)?255.0:(ofMap(mySize,0.3,1,255,0));
 			ofEnableAlphaBlending();
-			ofSetColor(ofColor(c,alpha));
+			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			ofRect(x+ofRandom(-v,v), y+ofRandom(-v,v), rad, 2*rad);
 			ofDisableAlphaBlending();
@@ -90,7 +91,7 @@ void Drawable::draw(float x, float y, float v, ofColor c){
 			rad = ofMap(mySize, 0,1, 25,400);
 			alpha = (mySize<0.2)?255.0:(ofMap(mySize,0.2,1,255,0));
 			ofEnableAlphaBlending();
-			ofSetColor(ofColor(c,alpha));
+			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			float rx = ofRandom(-v,v);
 			float ry = ofRandom(-v,v);

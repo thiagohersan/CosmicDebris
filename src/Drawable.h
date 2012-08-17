@@ -14,16 +14,17 @@ public:
 	~Drawable();
 	void draw(float x, float y);
 	void draw(float x, float y, float v);
-	void draw(float x, float y, ofColor c);
-	void draw(float x, float y, float v, ofColor c);
 	void setType(int type);
 	void setSize(float size);
-	// testing
+	void setColor(ofColor color);
+
+	// for testing
 	int getType();
 protected:
 	enum TypeEnum {TYPE_CIRCLE, TYPE_SQUARE, TYPE_HOR_RECT, TYPE_VER_RECT, TYPE_CROSS, TYPE_KAHANE, TYPE_UNO, TYPE_SIZE};
 	float mySize;
 	int myType;
+	ofColor myColor;
 };
 
 #endif
