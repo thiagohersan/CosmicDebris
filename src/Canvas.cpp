@@ -12,17 +12,22 @@ Canvas::~Canvas(){
 	delete theScene;
 }
 
-// test this !!
+// TODO: test this !!
 void Canvas::update(){
 	// deal with states
 	if(currState == STATE_FADING) {
 		// update fade alpha
-		fadeAlpha += (fabs(fadeAlpha)/fadeAlpha)*FADE_STEP;
+		fadeAlpha += fabs((fabs(fadeAlpha)/fadeAlpha)*FADE_STEP);
 		
 		// if we get to the max, change scenes
 		if(fabs(fadeAlpha) >= 255) {
+			// debug 
+			printf("FADING at max: alpha=%f\n",fadeAlpha);
+
 			// do some memory management
 			delete theScene;
+			// clear background
+			ofBackground(0);
 			
 			// pick new scene
 			switch (nextScene) {
@@ -52,9 +57,12 @@ void Canvas::update(){
 			fadeAlpha = -255.0;
 		}
 		// if we get to the min
-		else if(fabs(fadeAlpha) <= 0) {
+		else if(fabs(fadeAlpha) <= 1) {
+			// debug 
+			printf("FADING at min: alpha=%f\n",fadeAlpha);
+
 			// done fading
-			fadeAlpha = 0;
+			fadeAlpha = 1;
 			currState = STATE_STEADY;
 		}
 	}
@@ -72,7 +80,8 @@ void Canvas::update(){
 	// if val from serial not equal to next state, we have to trigger a change
 	if(sceneFromVal != (nextScene&0x07)){
 		nextScene = sceneFromVal;
-		currScene = STATE_FADING;
+		currState = STATE_FADING;
+		fadeAlpha = 1;
 	}
 	
 	theScene->update();
@@ -83,11 +92,12 @@ void Canvas::draw(){
 	// pretty much always draw the scene
 	theScene->draw();
 	// draw a fade rectangle
-	ofEnableAlphaBlending();
-	ofSetColor(ofColor(0,0,0,fabs(fadeAlpha)));
-	ofFill();
+	//ofEnableAlphaBlending();
+	//ofSetColor(ofColor(0,0,0,fabs(fadeAlpha)));
+	//ofFill();
 	// kind of lazy. using globals. meh.
-	ofRect(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth(), ofGetHeight());
+	//ofRect(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth(), ofGetHeight());
+	//ofDisableAlphaBlending();
 }
 
 
