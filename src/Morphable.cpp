@@ -7,6 +7,7 @@ Morphable::Morphable(){
 	// initial conditions
 	currSize = targetSize = 0.0;
 	currType = targetType = TYPE_SQUARE;
+	currColor = ofColor(0,0,0);
 	currState = STATE_STEADY;
 	lastMorph = ofGetElapsedTimeMillis();
 	// init vectors
@@ -26,6 +27,7 @@ Morphable::~Morphable(){}
 // for setting the type of the object
 void Morphable::setType(int type){
 	// check if new type is different from current type
+	// TODO: test this, since we'll be calling setType on every frame
 	if((type%TYPE_SIZE) != currType){
 		targetType = type%TYPE_SIZE;
 		
@@ -147,10 +149,16 @@ void Morphable::setType(int type){
 //    targetSize:=[50,400]
 void Morphable::setSize(float size){
 	// if the new size is different than the current size, go morph
+	// TODO: test this, since we'll be calling setSize on every frame
 	if(size != targetSize) {
 		targetSize = ofMap(size, 0, 1, 30, 400);
 		currState = STATE_MORPHING;
 	}
+}
+
+// set a new color for the shape
+void Morphable::setColor(ofColor color){
+	currColor = color;
 }
 
 // for debugging
@@ -165,16 +173,9 @@ float Morphable::getSize(){
 // x,y are the center coordinates
 // x,y,v are in pixels
 void Morphable::draw(float x, float y){
-	this->draw(x,y,0,ofColor(255,255,255));
+	this->draw(x,y,0);
 }
 void Morphable::draw(float x, float y, float v){
-	this->draw(x,y,v,ofColor(255,255,255));
-}
-void Morphable::draw(float x, float y, ofColor c){
-	this->draw(x,y,0,c);
-}
-
-void Morphable::draw(float x, float y, float v, ofColor c){
 	// take a step before drawing
 	if(currState == STATE_MORPHING) {
 		this->morphStep();
@@ -182,11 +183,11 @@ void Morphable::draw(float x, float y, float v, ofColor c){
 	
 	// reminder: currSize:=[50,400]
 	//           v:=pixels
-	ofPoint rp = ofPoint(ofRandom(-v, v), ofRandom(-v, v));
-	rp = 0; // DEBUG
+	ofPoint rp = ofPoint(ofRandom(-v,v), ofRandom(-v,v));
+	//rp = 0; // DEBUG
 	float alpha = (currSize<100)?255.0:(ofMap(currSize,100,400,255,0));
 	ofEnableAlphaBlending();
-	ofSetColor(ofColor(c,alpha));
+	ofSetColor(ofColor(currColor,alpha));
 	ofFill();
 	
 	ofBeginShape();

@@ -10,9 +10,7 @@
 // number of points in a shape
 #define NUM_OF_POINTS 12
 // period for morphing between shapes
-#define MORPH_PERIOD 10
-// math constants
-//#define SQRT2 1.41421356237
+#define MORPH_PERIOD 6
 
 class Morphable: public Geometricable {
 	
@@ -21,10 +19,9 @@ public:
 	~Morphable();
 	void draw(float x, float y);
 	void draw(float x, float y, float v);
-	void draw(float x, float y, ofColor c);
-	void draw(float x, float y, float v, ofColor c);
 	void setType(int type);
 	void setSize(float size);
+	void setColor(ofColor color);
 	// testing
 	int getType();
 	float getSize();
@@ -33,8 +30,9 @@ protected:
 	enum StateEnum {STATE_STEADY, STATE_MORPHING};
 	float currSize, targetSize;
 	int currType, targetType;
+	ofColor currColor;
 	int currState;
-	int lastMorph;
+	unsigned int lastMorph;
 	
 	vector<ofPoint> currPoints, targetPoints;
 	vector<ofPoint> currLeftBez, targetLeftBez, currRightBez, targetRightBez;
