@@ -1,19 +1,16 @@
 #include "StaticScene.h"
 
-/* TODO:
-	- test that we're pasing the Val pointers correctly...
-*/
-
-StaticScene::StaticScene(char* aVals_, char* dVals_, int* dVal_){
+StaticScene::StaticScene(unsigned char* aVals_, unsigned char* dVals_, int* dVal_){
+	// assign the pointers to the serial arrays
 	analogVals = aVals_;
 	digitalVals = dVals_;
 	digitalVal = dVal_;
+	// flicker state variables
+    lastUpdate = ofGetElapsedTimeMillis();
+	bool turnOn = true;	
 }
 
 StaticScene::~StaticScene(){
-}
-
-void StaticScene::setup(){
 }
 
 void StaticScene::update(){

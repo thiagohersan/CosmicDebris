@@ -6,9 +6,8 @@
 class StaticScene: public Scene {
 	
 public:
-	StaticScene(char* aVals_, char* dVals_, int* dVal_);
+	StaticScene(unsigned char* aVals_, unsigned char* dVals_, int* dVal_);
 	~StaticScene();
-	void setup();
 	void update();
 	void draw();
 	void onSerialEvent(serialEventArgs &a);
