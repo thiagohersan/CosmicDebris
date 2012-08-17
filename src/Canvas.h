@@ -11,10 +11,10 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
+#include "ofMain.h"
 #include "SerialEventArgs.h"
 #include "StaticScene.h"
 #include "GeometricScene.h"
-#include "ofMain.h"
 
 #define NUM_ANALOG 6
 #define NUM_DIGITAL 6

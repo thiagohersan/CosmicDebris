@@ -2,6 +2,7 @@
 
 Canvas::Canvas(){
 	digitalVal = 0;
+	currScene = nextScene = SCENE_STATIC;
 	theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
 	currState = STATE_FADING;
 	fadeAlpha = 255;
@@ -35,9 +36,12 @@ void Canvas::update(){
 					break;
 				case SCENE_IMAGE:{
 					//theScene = new ImageticScene(analogVals, digitalVals, &digitalVal);
+					theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
 				}
 					break;
-				default:
+				default:{
+					theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
+				}
 					break;
 			}
 			
@@ -61,16 +65,16 @@ void Canvas::update(){
 	// dealt with states, now deal with serial numbers
 	// non-blocking. can change scenes while fading
 	// TODO: test this !!!
-
+	
 	/***** grab scene number from lowest 3 bits of digitalVal ****/
 	unsigned char sceneFromVal = (digitalVal&0x07);
-
+	
 	// if val from serial not equal to next state, we have to trigger a change
 	if(sceneFromVal != (nextScene&0x07)){
 		nextScene = sceneFromVal;
 		currScene = STATE_FADING;
 	}
-
+	
 	theScene->update();
 }
 
