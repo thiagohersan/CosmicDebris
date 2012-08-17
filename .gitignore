@@ -14,4 +14,4 @@ cosmicDebrisOF.xcodeproj/*.pbxuser
 .Trashes
 
 ## unignore data
-## !bin/data/
+!bin/data/
