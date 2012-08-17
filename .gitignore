@@ -13,5 +13,5 @@ cosmicDebrisOF.xcodeproj/*.pbxuser
 .Spotlight-V100
 .Trashes
 
-## unignor data
-!bin/data/
+## unignore data
+## !bin/data/
