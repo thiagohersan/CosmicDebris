@@ -3,6 +3,7 @@
 
 #include "ofMain.h"
 #include "StaticScene.h"
+#include "GeometricScene.h"
 #include "Drawable.h"
 #include "Morphable.h"
 #include "SerialEventArgs.h"
@@ -11,6 +12,7 @@
 class testApp : public ofBaseApp{
 	
 public:
+	testApp();
 	void setup();
 	void update();
 	void draw();
@@ -34,9 +36,17 @@ private:
 
 	ofEvent<serialEventArgs> serialEvent;
 	Canvas c;
+
+	// for testing !!
+	unsigned char analogVals[6];
+	unsigned char digitalVals[6];
+	int digitalVal;
+	unsigned char bType;
+	unsigned char bNum;
+	unsigned char bVal;
 	
-	Drawable d;
-	Morphable m;
+	GeometricScene g;
+
 };
 
 #endif

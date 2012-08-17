@@ -1,5 +1,8 @@
 #include "testApp.h"
 
+testApp::testApp() : g(analogVals, digitalVals, &digitalVal){
+}
+
 // return true if it sets up a serial communication port
 bool testApp::setupSerial(){
 	vector<ofSerialDeviceInfo> serialList = mySerial.getDeviceList();
@@ -49,12 +52,20 @@ void testApp::setup(){
 	autoPilot = !setupSerial();
 	// add a listener for the Canvas object
 	ofAddListener(serialEvent, &c, &Canvas::onSerialEvent);
-
+	
 	// screen setup
 	ofSetCircleResolution(100);
 	ofSetVerticalSync(true);
+	ofSetBackgroundAuto(false);
 	// other setup
 	ofSetRectMode(OF_RECTMODE_CENTER);
+	
+	// debug
+	digitalVal = 0;
+	for(int i=0; i<6; i++){
+		analogVals[i] = 0;
+		digitalVals[i] = 0;
+	}
 }
 
 //--------------------------------------------------------------
@@ -62,35 +73,27 @@ void testApp::update(){
 	// read serial
 	this->readSerial();
 	
-	// autopilot
-	d.setType((ofGetFrameNum()/300));
-	d.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
-	d.setSize(0.2); // just touching
-
-	///
-	m.setType(0);
-	m.setSize(0.1);	// just touching
-	//m.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
+	/*** autopilot keep this !!!
+	 d.setType((ofGetFrameNum()/300));
+	 d.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
+	 d.setSize(0.2); // just touching
+	 ***/
 	
 	// test
 	if(ofGetFrameNum()%100 == 0){
-		printf("%d:= %f\n",d.getType(),ofGetFrameRate());
+		printf("%f\n",ofGetFrameRate());
 	}
+	
+	g.update();
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	ofBackground(0,0,0);
 	// autopilot
 	float hue = ofMap(ofNoise(ofGetFrameNum()/500.0, ofGetFrameNum()/2000.0), 0,1, 0,255);
 	ofColor cc = ofColor::fromHsb(hue, 255, 255);
-	// test
-	for(int i=100; i<ofGetHeight(); i+=200){
-		for(int j=100; j<ofGetWidth(); j+=200){
-			//d.draw(j,i, ofRandom(5.0), cc);
-			m.draw(j,i, ofRandom(5), cc);
-		}
-	}
+	// testing
+	g.draw();
 }
 
 //--------------------------------------------------------------
@@ -101,6 +104,13 @@ void testApp::keyPressed(int key){
 void testApp::keyReleased(int key){
 	if((key <= '9') && (key >= '0')){
 		unsigned char tmpDigit = (key-'0')&0xff;
+		bNum = tmpDigit%6;
+	}
+	if((key == 'a') || (key == 'A')){
+		bType = 'A';
+	}
+	if((key == 'd') || (key == 'D')){
+		bType = 'D';
 	}
 }
 
@@ -118,6 +128,19 @@ void testApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
+	bVal = ofMap(y, 5,ofGetHeight()-5, 255,0, true);
+
+	if(bType == 'A'){
+		analogVals[bNum] = bVal;
+	}
+	if(bType == 'D'){
+		digitalVals[bNum] = (bVal>128)?255:0;
+		
+		unsigned char mask0 =   ((digitalVals[bNum]==0xff)&0x1)<<(5-bNum);    // all zeros and v
+		unsigned char mask1 = ~(((digitalVals[bNum]!=0xff)&0x1)<<(5-bNum));   // all ones and v
+
+		digitalVal = (mask0|digitalVal)&mask1;
+	}
 }
 
 //--------------------------------------------------------------
