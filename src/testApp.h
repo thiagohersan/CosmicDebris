@@ -44,8 +44,7 @@ private:
 	unsigned char bType;
 	unsigned char bNum;
 	unsigned char bVal;
-	
-	GeometricScene g;
+
 
 };
 

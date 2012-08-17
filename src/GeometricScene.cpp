@@ -49,7 +49,21 @@ void GeometricScene::update(){
 	shapeColor = ofColor::fromHsb(sHue, 255, 255);
 	bgndColor  = ofColor::fromHsb(bHue, 255, 255);
 	myMorphable.setSize(mSize);
-	myMorphable.setType(mShape);	
+	myMorphable.setType(mShape);
+	
+	// debug
+	if((ofGetFrameNum()%100) == 0){
+		printf("GeoScene: analogVals = ");
+		for(int i=0; i<6; i++){
+			printf("%d, ",analogVals[i]);
+		}
+		printf("\n          digitalVals = ");
+		for(int i=0; i<6; i++){
+			printf("%d, ",digitalVals[i]);
+		}
+		printf("\n          digitalVal = ");
+		printf("%d\n",*digitalVal);
+	}
 }
 
 void GeometricScene::draw(){

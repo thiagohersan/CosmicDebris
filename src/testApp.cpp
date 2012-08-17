@@ -1,7 +1,11 @@
 #include "testApp.h"
 
+/**** to init objects declared in the header file
 testApp::testApp() : g(analogVals, digitalVals, &digitalVal){
 }
+*/
+
+testApp::testApp(){}
 
 // return true if it sets up a serial communication port
 bool testApp::setupSerial(){
@@ -77,23 +81,21 @@ void testApp::update(){
 	 d.setType((ofGetFrameNum()/300));
 	 d.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
 	 d.setSize(0.2); // just touching
+	 float hue = ofMap(ofNoise(ofGetFrameNum()/500.0, ofGetFrameNum()/2000.0), 0,1, 0,255);
+	 ofColor cc = ofColor::fromHsb(hue, 255, 255);
 	 ***/
 	
 	// test
 	if(ofGetFrameNum()%100 == 0){
 		printf("%f\n",ofGetFrameRate());
 	}
-	
-	g.update();
+	c.update();
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	// autopilot
-	float hue = ofMap(ofNoise(ofGetFrameNum()/500.0, ofGetFrameNum()/2000.0), 0,1, 0,255);
-	ofColor cc = ofColor::fromHsb(hue, 255, 255);
 	// testing
-	g.draw();
+	c.draw();
 }
 
 //--------------------------------------------------------------

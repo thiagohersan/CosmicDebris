@@ -11,6 +11,8 @@ public:
 	void update();
 	void draw();
 	void onSerialEvent(serialEventArgs &a);
+protected:
+	ofTrueTypeFont myFont;
 };
 
 #endif

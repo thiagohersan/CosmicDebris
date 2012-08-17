@@ -30,7 +30,7 @@ void Canvas::update(){
 				}
 					break;
 				case SCENE_GEOMETRY:{
-					//theScene = new GeometricScene(analogVals, digitalVals, &digitalVal);
+					theScene = new GeometricScene(analogVals, digitalVals, &digitalVal);
 				}
 					break;
 				case SCENE_IMAGE:{
@@ -70,7 +70,8 @@ void Canvas::update(){
 		nextScene = sceneFromVal;
 		currScene = STATE_FADING;
 	}
-	
+
+	theScene->update();
 }
 
 // TODO: Test this!!
@@ -94,11 +95,11 @@ void Canvas::onSerialEvent(serialEventArgs &a){
 	
 	if(type_ == 'A'){
 		analogVals[id_%NUM_ANALOG] = value_;
-		printf("Seeting analog[%d] to %d\n", (int)(id_%NUM_ANALOG), value_);
+		printf("Canvas: Setting analog[%d] to %d\n", (int)(id_%NUM_ANALOG), value_);
 	}
 	else if(type_ == 'D'){
 		digitalVals[id_%NUM_DIGITAL] = (value_==0xff);
-		printf("Seeting digital[%d] to %d\n", (int)(id_%NUM_DIGITAL), (value_==0xff));
+		printf("Canvas: Seeting digital[%d] to %d\n", (int)(id_%NUM_DIGITAL), (value_==0xff));
 		// set id_-th bit of digitalVal based on value_
 		//   on box, the buttons are numbered: [0,1,...,5]
 		//   but here I want them to read as bits on a number, so I have to flip their order with NUM_DIGITAL-1-id_
@@ -107,7 +108,7 @@ void Canvas::onSerialEvent(serialEventArgs &a){
 		unsigned char mask1 = ~(((value_!=0xff)&0x1)<<(NUM_DIGITAL-1-id_));   // all ones and v
 		
 		digitalVal = (mask0|digitalVal)&mask1;
-		printf("digital val = %d\n", digitalVal);
+		printf("Canvas: digital val = %d\n", digitalVal);
 	}
 }
 /**/

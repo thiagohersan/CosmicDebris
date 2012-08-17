@@ -13,6 +13,7 @@
 
 #include "SerialEventArgs.h"
 #include "StaticScene.h"
+#include "GeometricScene.h"
 #include "ofMain.h"
 
 #define NUM_ANALOG 6
@@ -21,14 +22,14 @@
 #define FADE_STEP 5
 
 class Canvas {
-	
+
 public:
 	Canvas();
 	~Canvas();
 	void update();
 	void draw();
 	void onSerialEvent(serialEventArgs &a);
-	
+
 protected:
 	// invariant: these are always up to date
 	unsigned char analogVals[NUM_ANALOG];

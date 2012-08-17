@@ -7,7 +7,10 @@ StaticScene::StaticScene(unsigned char* aVals_, unsigned char* dVals_, int* dVal
 	digitalVal = dVal_;
 	// flicker state variables
     lastUpdate = ofGetElapsedTimeMillis();
-	bool turnOn = true;	
+	bool turnOn = true;
+	
+	// debug
+	myFont.loadFont("Arial Bold.ttf",32);
 }
 
 StaticScene::~StaticScene(){
@@ -17,6 +20,8 @@ void StaticScene::update(){
 }
 
 void StaticScene::draw(){
+	// debug
+	myFont.drawString("Test from StaticScene", 100,100);
 }
 
 /**/
