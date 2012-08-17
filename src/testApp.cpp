@@ -49,7 +49,7 @@ void testApp::setup(){
 	autoPilot = !setupSerial();
 	// add a listener for the Canvas object
 	ofAddListener(serialEvent, &c, &Canvas::onSerialEvent);
-	
+
 	// screen setup
 	ofSetCircleResolution(100);
 	ofSetVerticalSync(true);
@@ -122,15 +122,12 @@ void testApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::windowResized(int w, int h){
-	
 }
 
 //--------------------------------------------------------------
 void testApp::gotMessage(ofMessage msg){
-	
 }
 
 //--------------------------------------------------------------
 void testApp::dragEvent(ofDragInfo dragInfo){ 
-	
 }
