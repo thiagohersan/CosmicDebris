@@ -56,7 +56,7 @@ void testApp::setup(){
 	autoPilot = !setupSerial();
 	// add a listener for the Canvas object
 	ofAddListener(serialEvent, &c, &Canvas::onSerialEvent);
-	
+
 	// screen setup
 	ofSetCircleResolution(100);
 	ofSetVerticalSync(true);
@@ -76,7 +76,8 @@ void testApp::setup(){
 void testApp::update(){
 	// read serial
 	this->readSerial();
-	
+	c.update();
+
 	/*** autopilot keep this !!!
 	 d.setType((ofGetFrameNum()/300));
 	 d.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
@@ -89,12 +90,11 @@ void testApp::update(){
 	if(ofGetFrameNum()%100 == 0){
 		printf("%f\n",ofGetFrameRate());
 	}
-	c.update();
+
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	// testing
 	c.draw();
 }
 

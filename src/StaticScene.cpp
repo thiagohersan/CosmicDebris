@@ -21,6 +21,8 @@ void StaticScene::update(){
 
 void StaticScene::draw(){
 	// debug
+	ofBackground(255);
+	ofSetColor(0);
 	myFont.drawString("Test from StaticScene", 100,100);
 }
 
