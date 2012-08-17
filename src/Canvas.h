@@ -13,9 +13,12 @@
 
 #include "SerialEventArgs.h"
 #include "StaticScene.h"
+#include "ofMain.h"
 
 #define NUM_ANALOG 6
 #define NUM_DIGITAL 6
+
+#define FADE_STEP 5
 
 class Canvas {
 	
@@ -32,10 +35,19 @@ protected:
 	char digitalVals[NUM_DIGITAL];
 	int digitalVal;
 	
-	enum State{STATE_STEADY, STATE_MORPHING};
+	enum StateEnum {STATE_STEADY, STATE_FADING};
+	enum SceneEnum {SCENE_STATIC, SCENE_GEOMETRY, SCENE_IMAGE};
+
+	// keep track of curresnt state (fade or steady)
 	int currState;
+
+	// fade amount. goes from 0->255->0
+	float fadeAlpha;
+	
+	// keep track of current and next scenes. these are based on SceneEnum
+	int currScene, nextScene;
 	// fucking pointers... hooray!
-	Scene* currScene;
+	Scene* theScene;
 };
 
 

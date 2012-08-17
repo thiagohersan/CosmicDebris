@@ -1,20 +1,89 @@
 #include "Canvas.h"
 
-/* TODO:
- - read values from serial and update frequency, colors, shape variables, etc
- */
-
 Canvas::Canvas(){
 	digitalVal = 0;
-	currScene = new StaticScene(analogVals, digitalVals, &digitalVal);
-	
+	theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
+	currState = STATE_FADING;
+	fadeAlpha = 255;
 }
 
 Canvas::~Canvas(){
-	delete currScene;
+	delete theScene;
 }
-void Canvas::update(){}
-void Canvas::draw(){}
+
+// test this !!
+void Canvas::update(){
+	// deal with states
+	if(currState == STATE_FADING) {
+		// update fade alpha
+		fadeAlpha += (fabs(fadeAlpha)/fadeAlpha)*FADE_STEP;
+		
+		// if we get to the max, change scenes
+		if(fabs(fadeAlpha) >= 255) {
+			// do some memory management
+			delete theScene;
+			
+			// pick new scene
+			switch (nextScene) {
+				case SCENE_STATIC:{
+					theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
+				}
+					break;
+				case SCENE_GEOMETRY:{
+					//theScene = new GeometricScene(analogVals, digitalVals, &digitalVal);
+				}
+					break;
+				case SCENE_IMAGE:{
+					//theScene = new ImageticScene(analogVals, digitalVals, &digitalVal);
+				}
+					break;
+				default:
+					break;
+			}
+			
+			// update current scene
+			currScene = nextScene;
+			
+			// switch directions
+			fadeAlpha = -255.0;
+		}
+		// if we get to the min
+		else if(fabs(fadeAlpha) <= 0) {
+			// done fading
+			fadeAlpha = 0;
+			currState = STATE_STEADY;
+		}
+	}
+	else if(currScene == STATE_STEADY){
+		// do nothing for now
+	}
+	
+	// dealt with states, now deal with serial numbers
+	// non-blocking. can change scenes while fading
+	// TODO: test this !!!
+
+	/***** grab scene number from lowest 3 bits of digitalVal ****/
+	unsigned char sceneFromVal = (digitalVal&0x07);
+
+	// if val from serial not equal to next state, we have to trigger a change
+	if(sceneFromVal != (nextScene&0x07)){
+		nextScene = sceneFromVal;
+		currScene = STATE_FADING;
+	}
+	
+}
+
+// TODO: Test this!!
+void Canvas::draw(){
+	// pretty much always draw the scene
+	theScene->draw();
+	// draw a fade rectangle
+	ofEnableAlphaBlending();
+	ofSetColor(ofColor(0,0,0,fabs(fadeAlpha)));
+	ofFill();
+	// kind of lazy. using globals. meh.
+	ofRect(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth(), ofGetHeight());
+}
 
 
 /**/
