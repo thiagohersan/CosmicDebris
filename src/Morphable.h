@@ -29,8 +29,8 @@ public:
 	int getType();
 	float getSize();
 protected:
-	enum Type {TYPE_CIRCLE, TYPE_SQUARE, TYPE_HOR_RECT, TYPE_VER_RECT, TYPE_CROSS, TYPE_KAHANE, TYPE_UNO, TYPE_SIZE};
-	enum State{STATE_STEADY, STATE_MORPHING};
+	enum TypeEnum {TYPE_CIRCLE, TYPE_SQUARE, TYPE_HOR_RECT, TYPE_VER_RECT, TYPE_CROSS, TYPE_KAHANE, TYPE_UNO, TYPE_SIZE};
+	enum StateEnum {STATE_STEADY, STATE_MORPHING};
 	float currSize, targetSize;
 	int currType, targetType;
 	int currState;

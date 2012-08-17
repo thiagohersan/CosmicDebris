@@ -36,15 +36,42 @@ void Morphable::setType(int type){
 		}	
 		
 		// set up all the target vectors
-		// TODO: {TYPE_CIRCLE, TYPE_KAHANE, TYPE_UNO};
+		// TODO: {TYPE_KAHANE, TYPE_UNO};
 		switch (targetType) {
 			case TYPE_CIRCLE: {
 				// TODO: add target beziers
-				for(int i=0; i<targetPoints.size(); i++){
-					float angle = ofDegToRad(15+i*30);
-					float px = ofClamp(cos(angle), -1, 1);
-					float py = ofClamp(sin(angle), -1, 1);
-					targetPoints.at(i).set(px,py);
+				// do in paris because of bezier stuff.
+				for(int thisI=0; thisI<targetPoints.size(); thisI+=1){
+					// reach around!
+					int nextI = (thisI+1)%targetPoints.size();
+					
+					// their angles
+					float thisAngle = ofDegToRad(15+thisI*30);
+					float nextAngle = ofDegToRad(15+nextI*30);
+					
+					// their xs and ys
+					float thisPx = ofClamp(cos(thisAngle), -1, 1);
+					float thisPy = ofClamp(sin(thisAngle), -1, 1);
+					float nextPx = ofClamp(cos(nextAngle), -1, 1);
+					float nextPy = ofClamp(sin(nextAngle), -1, 1);
+					
+					// boom! target points are set!
+					targetPoints.at(thisI).set(thisPx,thisPy);
+					targetPoints.at(nextI).set(nextPx,nextPy);
+					
+					// vectors from this->next and next->this
+					ofVec2f this2next(nextPx-thisPx, nextPy-thisPy);
+					ofVec2f next2this(thisPx-nextPx, thisPy-nextPy);
+					
+					// get normalized and normalized perpendiculars
+					ofVec2f this2next90 = this2next.getRotated(-90);
+					ofVec2f next2this90 = next2this.getRotated(90);
+					this2next.normalize();
+					next2this.normalize();
+					
+					// get the location of the bezier point by adding the vectors
+					targetLeftBez.at(thisI).set((next2this + next2this90).scale(0.05));
+					targetRightBez.at(nextI).set((this2next + this2next90).scale(0.05));
 				}
 			}
 				break;
@@ -89,7 +116,7 @@ void Morphable::setType(int type){
 					//    width of cross arm = 2/sqrt(3)
 					float px = twosqrt3*cos(angle);
 					float py = twosqrt3*sin(angle);
-
+					
 					// clamp shortest side, or when sides are equal
 					if(fabs(px) < 0.99){
 						px = ofClamp(px, -sqrt24, sqrt24);
@@ -97,10 +124,10 @@ void Morphable::setType(int type){
 					if(fabs(py) < 0.99){
 						py = ofClamp(py, -sqrt24, sqrt24);
 					}
-
+					
 					// angle increments are: 15,15,60,15,15,60,...
 					angle += ofDegToRad(((i%3)/2)*45+15);
-
+					
 					targetPoints.at(i).set(px,py);
 				}
 			}
@@ -156,6 +183,7 @@ void Morphable::draw(float x, float y, float v, ofColor c){
 	// reminder: currSize:=[50,400]
 	//           v:=pixels
 	ofPoint rp = ofPoint(ofRandom(-v, v), ofRandom(-v, v));
+	rp = 0; // DEBUG
 	float alpha = (currSize<100)?255.0:(ofMap(currSize,100,400,255,0));
 	ofEnableAlphaBlending();
 	ofSetColor(ofColor(c,alpha));
@@ -184,6 +212,23 @@ void Morphable::draw(float x, float y, float v, ofColor c){
 	}
 	ofEndShape();
 	ofDisableAlphaBlending();
+	
+	// DEBUG
+	ofFill();
+	for(int i=0; i<currPoints.size()&&(i<0); i++){
+		ofSetColor(ofColor(255,255,255,255));
+		ofPoint v0 = ofPoint(x,y) + currSize*currPoints.at(i);
+		ofCircle(v0,2);
+
+		ofPoint r0 = v0 + currSize*currRightBez.at(i);
+		ofSetColor(ofColor(255,0,0,255));
+		ofCircle(r0,2);
+		
+		ofPoint l0 = v0 + currSize*currLeftBez.at(i);
+		ofSetColor(ofColor(0,0,255,255));
+		ofCircle(l0,2);
+	}		
+	
 	
 }
 
@@ -224,7 +269,7 @@ void Morphable::morphStep(){
 				// check if the new points are the same as the targets
 				samePoints = samePoints && (tlb.distance(currLeftBez.at(i)) < 0.01) && (trb.distance(currRightBez.at(i)) < 0.01);
 			}
-
+			
 			// if all points are the same, then we're done morphing type
 			if(samePoints == true){
 				currType = targetType;
