@@ -13,6 +13,7 @@ public:
 	void onSerialEvent(serialEventArgs &a);
 protected:
 	ofTrueTypeFont myFont;
+	ofColor myColor;
 };
 
 #endif

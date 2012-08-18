@@ -17,13 +17,36 @@ void Canvas::update(){
 	// deal with states
 	if(currState == STATE_FADING) {
 		// update fade alpha
-		fadeAlpha += fabs((fabs(fadeAlpha)/fadeAlpha)*FADE_STEP);
+		fadeAlpha += FADE_STEP;
 		
 		// if we get to the max, change scenes
 		if(fabs(fadeAlpha) >= 255) {
 			// debug 
 			printf("FADING at max: alpha=%f\n",fadeAlpha);
+			
+			// wait on black for a while
+			currState = STATE_BLACK;
+			
+		}
+		// if we get to the min
+		else if(fabs(fadeAlpha) <= 1) {
+			// debug 
+			printf("FADING at min: alpha=%f\n",fadeAlpha);
+			
+			// done fading
+			fadeAlpha = 1;
+			currState = STATE_STEADY;
+		}
+	}
+	else if(currScene == STATE_STEADY){
+		// do nothing for now
+	}
+	else if(currScene == STATE_BLACK){
+		// update fade alpha
+		fadeAlpha += FADE_STEP;
 
+		// change scenes
+		if(fabs(fadeAlpha) > 500){
 			// do some memory management
 			delete theScene;
 			// clear background
@@ -36,7 +59,8 @@ void Canvas::update(){
 				}
 					break;
 				case SCENE_GEOMETRY:{
-					theScene = new GeometricScene(analogVals, digitalVals, &digitalVal);
+					//theScene = new GeometricScene(analogVals, digitalVals, &digitalVal);
+					theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
 				}
 					break;
 				case SCENE_IMAGE:{
@@ -49,26 +73,16 @@ void Canvas::update(){
 				}
 					break;
 			}
-			
+
 			// update current scene
 			currScene = nextScene;
-			
-			// switch directions
-			fadeAlpha = -255.0;
-		}
-		// if we get to the min
-		else if(fabs(fadeAlpha) <= 1) {
-			// debug 
-			printf("FADING at min: alpha=%f\n",fadeAlpha);
 
-			// done fading
-			fadeAlpha = 1;
-			currState = STATE_STEADY;
+			// switch directions and go back to fade in
+			fadeAlpha = -254.0;
+			currState = STATE_FADING;			
 		}
 	}
-	else if(currScene == STATE_STEADY){
-		// do nothing for now
-	}
+	
 	
 	// dealt with states, now deal with serial numbers
 	// non-blocking. can change scenes while fading
@@ -92,12 +106,10 @@ void Canvas::draw(){
 	// pretty much always draw the scene
 	theScene->draw();
 	// draw a fade rectangle
-	//ofEnableAlphaBlending();
-	//ofSetColor(ofColor(0,0,0,fabs(fadeAlpha)));
-	//ofFill();
+	ofSetColor(ofColor(0,0,0,ofClamp(fabs(fadeAlpha),0,255)));
+	ofFill();
 	// kind of lazy. using globals. meh.
-	//ofRect(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth(), ofGetHeight());
-	//ofDisableAlphaBlending();
+	ofRect(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth(), ofGetHeight());
 }
 
 

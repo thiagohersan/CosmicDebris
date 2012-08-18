@@ -186,7 +186,6 @@ void Morphable::draw(float x, float y, float v){
 	ofPoint rp = ofPoint(ofRandom(-v,v), ofRandom(-v,v));
 	//rp = 0; // DEBUG
 	float alpha = (currSize<100)?255.0:(ofMap(currSize,100,400,255,0));
-	ofEnableAlphaBlending();
 	ofSetColor(ofColor(currColor,alpha));
 	ofFill();
 	
@@ -212,7 +211,6 @@ void Morphable::draw(float x, float y, float v){
 		ofBezierVertex(c0.x,c0.y, c1.x,c1.y, v1.x,v1.y);
 	}
 	ofEndShape();
-	ofDisableAlphaBlending();
 	
 	// DEBUG
 	ofFill();

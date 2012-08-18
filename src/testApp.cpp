@@ -61,6 +61,7 @@ void testApp::setup(){
 	ofSetCircleResolution(100);
 	ofSetVerticalSync(true);
 	ofSetBackgroundAuto(false);
+	ofEnableAlphaBlending();
 	// other setup
 	ofSetRectMode(OF_RECTMODE_CENTER);
 	

@@ -50,54 +50,44 @@ void Drawable::draw(float x, float y, float v){
 			// turn into pixels
 			rad = ofMap(mySize, 0,1, 20,400);
 			alpha = (mySize<0.25)?255.0:(ofMap(mySize,0.25,1,255,0));
-			ofEnableAlphaBlending();
 			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			ofCircle(x+ofRandom(-v,v), y+ofRandom(-v,v), rad);
-			ofDisableAlphaBlending();
 			break;
 		case TYPE_SQUARE:
 			// turn into pixels
 			rad = ofMap(mySize, 0,1, 25,400);
 			alpha = (mySize<0.3)?255.0:(ofMap(mySize,0.3,1,255,0));
-			ofEnableAlphaBlending();
 			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			ofRect(x+ofRandom(-v,v), y-ofRandom(-v,v), 2*rad, 2*rad);
-			ofDisableAlphaBlending();
 			break;
 		case TYPE_HOR_RECT:
 			// turn into pixels
 			rad = ofMap(mySize, 0,1, 25,400);
 			alpha = (mySize<0.3)?255.0:(ofMap(mySize,0.3,1,255,0));
-			ofEnableAlphaBlending();
 			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			ofRect(x+ofRandom(-v,v), y+ofRandom(-v,v), 2*rad, rad);
-			ofDisableAlphaBlending();
 			break;
 		case TYPE_VER_RECT:
 			// turn into pixels
 			rad = ofMap(mySize, 0,1, 25,400);
 			alpha = (mySize<0.3)?255.0:(ofMap(mySize,0.3,1,255,0));
-			ofEnableAlphaBlending();
 			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			ofRect(x+ofRandom(-v,v), y+ofRandom(-v,v), rad, 2*rad);
-			ofDisableAlphaBlending();
 			break;
 		case TYPE_CROSS: {
 			// turn into pixels
 			rad = ofMap(mySize, 0,1, 25,400);
 			alpha = (mySize<0.2)?255.0:(ofMap(mySize,0.2,1,255,0));
-			ofEnableAlphaBlending();
 			ofSetColor(ofColor(myColor,alpha));
 			ofFill();
 			float rx = ofRandom(-v,v);
 			float ry = ofRandom(-v,v);
 			ofRect(x+rx, y+ry, rad, 2*rad);
 			ofRect(x+rx, y+ry, 2*rad, rad);
-			ofDisableAlphaBlending();
 		}
 			break;
 		default:
