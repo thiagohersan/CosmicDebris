@@ -37,7 +37,7 @@ private:
 	ofEvent<serialEventArgs> serialEvent;
 	Canvas c;
 
-	// for testing !!
+	// for manual control withou box !!
 	unsigned char analogVals[6];
 	unsigned char digitalVals[6];
 	int digitalVal;

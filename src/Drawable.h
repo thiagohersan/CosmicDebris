@@ -17,8 +17,6 @@ public:
 	void setType(int type);
 	void setSize(float size);
 	void setColor(ofColor color);
-
-	// for testing
 	int getType();
 protected:
 	enum TypeEnum {TYPE_CIRCLE, TYPE_SQUARE, TYPE_HOR_RECT, TYPE_VER_RECT, TYPE_CROSS, TYPE_KAHANE, TYPE_UNO, TYPE_SIZE};

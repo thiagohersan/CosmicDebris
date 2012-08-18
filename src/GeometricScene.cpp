@@ -25,7 +25,6 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
 GeometricScene::~GeometricScene(){
 }
 
-// TODO: test that we're passing the pointers correctly !!
 void GeometricScene::update(){
 	/***** reading the values from the serial
 	 for this scene:
@@ -50,20 +49,6 @@ void GeometricScene::update(){
 	bgndColor  = ofColor::fromHsb(bHue, 255, 255);
 	myMorphable.setSize(mSize);
 	myMorphable.setType(mShape);
-	
-	// debug
-	if((ofGetFrameNum()%100) == 0){
-		printf("GeoScene: analogVals = ");
-		for(int i=0; i<6; i++){
-			printf("%d, ",analogVals[i]);
-		}
-		printf("\n          digitalVals = ");
-		for(int i=0; i<6; i++){
-			printf("%d, ",digitalVals[i]);
-		}
-		printf("\n          digitalVal = ");
-		printf("%d\n",*digitalVal);
-	}
 }
 
 void GeometricScene::draw(){

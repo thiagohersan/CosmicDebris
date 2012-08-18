@@ -1,9 +1,9 @@
 #include "testApp.h"
 
 /**** to init objects declared in the header file
-testApp::testApp() : g(analogVals, digitalVals, &digitalVal){
-}
-*/
+ testApp::testApp() : g(analogVals, digitalVals, &digitalVal){
+ }
+ */
 
 testApp::testApp(){}
 
@@ -56,7 +56,7 @@ void testApp::setup(){
 	autoPilot = !setupSerial();
 	// add a listener for the Canvas object
 	ofAddListener(serialEvent, &c, &Canvas::onSerialEvent);
-
+	
 	// screen setup
 	ofSetCircleResolution(100);
 	ofSetVerticalSync(true);
@@ -65,7 +65,7 @@ void testApp::setup(){
 	// other setup
 	ofSetRectMode(OF_RECTMODE_CENTER);
 	
-	// debug
+	// for manual control without box
 	digitalVal = 0;
 	for(int i=0; i<6; i++){
 		analogVals[i] = 0;
@@ -78,7 +78,7 @@ void testApp::update(){
 	// read serial
 	this->readSerial();
 	c.update();
-
+	
 	/*** autopilot keep this !!!
 	 d.setType((ofGetFrameNum()/300));
 	 d.setSize(0.5 + (ofNoise(ofGetFrameNum()/1000.0, ofGetFrameNum()/500.0)-0.5));
@@ -91,7 +91,7 @@ void testApp::update(){
 	if(ofGetFrameNum()%100 == 0){
 		printf("%f\n",ofGetFrameRate());
 	}
-
+	
 }
 
 //--------------------------------------------------------------
@@ -105,6 +105,7 @@ void testApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
+	// for manual control without box
 	if((key <= '9') && (key >= '0')){
 		unsigned char tmpDigit = (key-'0')&0xff;
 		bNum = tmpDigit%6;
@@ -131,8 +132,9 @@ void testApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
+	// for manual control without box
 	bVal = ofMap(y, 5,ofGetHeight()-5, 255,0, true);
-
+	
 	if(bType == 'A'){
 		analogVals[bNum] = bVal;
 	}
@@ -141,7 +143,7 @@ void testApp::mouseReleased(int x, int y, int button){
 		
 		unsigned char mask0 =   ((digitalVals[bNum]==0xff)&0x1)<<(5-bNum);    // all zeros and v
 		unsigned char mask1 = ~(((digitalVals[bNum]!=0xff)&0x1)<<(5-bNum));   // all ones and v
-
+		
 		digitalVal = (mask0|digitalVal)&mask1;
 	}
 }

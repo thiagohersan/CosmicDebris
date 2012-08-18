@@ -26,13 +26,11 @@ void Drawable::setType(int type){
 void Drawable::setSize(float size){
 	mySize = size;
 }
-
 // set the color of the shape
 void Drawable::setColor(ofColor color){
 	myColor = color;
 }
-
-// for debugging
+// get drawable type
 int Drawable::getType(){
 	return myType;
 }
