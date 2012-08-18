@@ -18,40 +18,33 @@ void Canvas::update(){
 	if(currState == STATE_FADING) {
 		// update fade alpha
 		fadeAlpha += FADE_STEP;
-		
-		// if we get to the max, change scenes
+
+		// if we get to the max, stay on black for a while
 		if(fabs(fadeAlpha) >= 255) {
-			// debug 
-			printf("FADING at max: alpha=%f\n",fadeAlpha);
-			
 			// wait on black for a while
 			currState = STATE_BLACK;
-			
 		}
 		// if we get to the min
 		else if(fabs(fadeAlpha) <= 1) {
-			// debug 
-			printf("FADING at min: alpha=%f\n",fadeAlpha);
-			
 			// done fading
 			fadeAlpha = 1;
 			currState = STATE_STEADY;
 		}
 	}
-	else if(currScene == STATE_STEADY){
+	else if(currState == STATE_STEADY){
 		// do nothing for now
 	}
-	else if(currScene == STATE_BLACK){
+	else if(currState == STATE_BLACK){
 		// update fade alpha
 		fadeAlpha += FADE_STEP;
-
-		// change scenes
+		
+		// if we're done waiting here, change scenes
 		if(fabs(fadeAlpha) > 500){
 			// do some memory management
 			delete theScene;
-			// clear background
+			// clear background to erase previous scene
 			ofBackground(0);
-			
+
 			// pick new scene
 			switch (nextScene) {
 				case SCENE_STATIC:{
@@ -76,7 +69,7 @@ void Canvas::update(){
 
 			// update current scene
 			currScene = nextScene;
-
+			
 			// switch directions and go back to fade in
 			fadeAlpha = -254.0;
 			currState = STATE_FADING;			
@@ -87,15 +80,14 @@ void Canvas::update(){
 	// dealt with states, now deal with serial numbers
 	// non-blocking. can change scenes while fading
 	// TODO: test this !!!
-	
+
 	/***** grab scene number from lowest 3 bits of digitalVal ****/
 	unsigned char sceneFromVal = (digitalVal&0x07);
-	
+
 	// if val from serial not equal to next state, we have to trigger a change
 	if(sceneFromVal != (nextScene&0x07)){
 		nextScene = sceneFromVal;
 		currState = STATE_FADING;
-		fadeAlpha = 1;
 	}
 	
 	theScene->update();
