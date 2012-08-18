@@ -22,7 +22,6 @@ public:
 	void setType(int type);
 	void setSize(float size);
 	void setColor(ofColor color);
-	// testing
 	int getType();
 	float getSize();
 protected:
