@@ -5,6 +5,7 @@ build/
 ## Xcode crap
 cosmicDebrisOF.xcodeproj/*.mode1v3
 cosmicDebrisOF.xcodeproj/*.pbxuser
+cosmicDebrisOF.xcodeproj/project.pbxproj
 
 ## mac os crap
 .DS_Store
