@@ -27,7 +27,6 @@ Morphable::~Morphable(){}
 // for setting the type of the object
 void Morphable::setType(int type){
 	// check if new type is different from current type
-	// TODO: test this, since we'll be calling setType on every frame
 	if((type%TYPE_SIZE) != currType){
 		targetType = type%TYPE_SIZE;
 		
@@ -41,8 +40,6 @@ void Morphable::setType(int type){
 		// TODO: {TYPE_KAHANE, TYPE_UNO};
 		switch (targetType) {
 			case TYPE_CIRCLE: {
-				// TODO: add target beziers
-				// do in paris because of bezier stuff.
 				for(int thisI=0; thisI<targetPoints.size(); thisI+=1){
 					// reach around!
 					int nextI = (thisI+1)%targetPoints.size();
@@ -140,7 +137,6 @@ void Morphable::setType(int type){
 		}
 		currState = STATE_MORPHING;
 	}
-	
 }
 
 // set the target size in pixels
@@ -148,10 +144,12 @@ void Morphable::setType(int type){
 //    currSize:=[50,400]
 //    targetSize:=[50,400]
 void Morphable::setSize(float size){
+	// not elegant most
+	float mappedSize = ofMap(size, 0, 1, 30, 400);
+
 	// if the new size is different than the current size, go morph
-	// TODO: test this, since we'll be calling setSize on every frame
-	if(size != targetSize) {
-		targetSize = ofMap(size, 0, 1, 30, 400);
+	if(fabs(mappedSize - targetSize) > 1) {
+		targetSize = mappedSize;
 		currState = STATE_MORPHING;
 	}
 }
@@ -161,10 +159,11 @@ void Morphable::setColor(ofColor color){
 	currColor = color;
 }
 
-// for debugging
+// get morph type
 int Morphable::getType(){
 	return currType;
 }
+// get morph size
 float Morphable::getSize(){
 	return currSize;
 }
@@ -184,7 +183,6 @@ void Morphable::draw(float x, float y, float v){
 	// reminder: currSize:=[50,400]
 	//           v:=pixels
 	ofPoint rp = ofPoint(ofRandom(-v,v), ofRandom(-v,v));
-	//rp = 0; // DEBUG
 	float alpha = (currSize<100)?255.0:(ofMap(currSize,100,400,255,0));
 	ofSetColor(ofColor(currColor,alpha));
 	ofFill();
@@ -251,7 +249,7 @@ void Morphable::morphStep(){
 				// set current points to be 95% current values and 5% target values
 				ofPoint cp = currPoints.at(i);
 				ofPoint tp = targetPoints.at(i);
-				currPoints.at(i).set(0.95*cp + 0.05*tp);
+				currPoints.at(i).set(0.9*cp + 0.1*tp);
 				// check if the new point is the same as the target
 				samePoints = samePoints && (tp.distance(currPoints.at(i)) < 0.01);
 			}
