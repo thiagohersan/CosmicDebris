@@ -185,6 +185,7 @@ void Morphable::draw(float x, float y, float v){
 	ofPoint rp = ofPoint(ofRandom(-v,v), ofRandom(-v,v));
 	float alpha = (currSize<100)?255.0:(ofMap(currSize,100,400,255,0));
 	ofSetColor(ofColor(currColor,alpha));
+
 	ofFill();
 	
 	ofBeginShape();
@@ -209,6 +210,32 @@ void Morphable::draw(float x, float y, float v){
 		ofBezierVertex(c0.x,c0.y, c1.x,c1.y, v1.x,v1.y);
 	}
 	ofEndShape();
+
+	ofNoFill();
+	
+	ofBeginShape();
+	for(int i=0; i<currPoints.size(); i++){
+		// bezier polygon. two vertex points and two control points
+		ofPoint v0 = ofPoint(x,y) + currSize*currPoints.at((i+0)%currPoints.size());
+		ofPoint v1 = ofPoint(x,y) + currSize*currPoints.at((i+1)%currPoints.size());
+		// c0 is to the right of vertex i
+		// c1 is to the left of vertex i+1
+		ofPoint c0 = v0 + currSize*currRightBez.at((i+0)%currPoints.size());
+		ofPoint c1 = v1 + currSize*currLeftBez.at((i+1)%currPoints.size());
+		
+		// add variation
+		v0 += rp;
+		v1 += rp;
+		c0 += rp;
+		c1 += rp;
+		
+		// finally
+		ofVertex(v0);
+		// pinche ofBezierCurve... doesn't accept ofPoints
+		ofBezierVertex(c0.x,c0.y, c1.x,c1.y, v1.x,v1.y);
+	}
+	ofEndShape();
+	
 	
 	// DEBUG
 	ofFill();

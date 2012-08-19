@@ -77,7 +77,7 @@ void Canvas::update(){
 	
 	// dealt with states, now deal with serial numbers
 	// non-blocking. can change scenes while fading
-	// TODO: test this !!! make sure we don't lose scene when we change during a fade-in
+	// TODO: fix this!! we lose scene when we change during a fade-in
 
 	/***** grab scene number from lowest 3 bits of digitalVal ****/
 	unsigned char sceneFromVal = (digitalVal&0x07);

@@ -2,6 +2,14 @@
 #include "testApp.h"
 #include "ofAppGlutWindow.h"
 
+/*
+ TODO: add sound
+ TODO: smoothing
+ TODO: change morphable point orders for more interesting morphs
+ TODO: static scene
+ 
+ */
+
 //========================================================================
 int main( ){
 

@@ -58,9 +58,11 @@ void testApp::setup(){
 	ofAddListener(serialEvent, &c, &Canvas::onSerialEvent);
 	
 	// screen setup
-	ofSetCircleResolution(100);
-	ofSetVerticalSync(true);
+	//ofSetCircleResolution(100);
+	// TODO: bug??
+	//ofSetVerticalSync(true);
 	ofSetBackgroundAuto(false);
+	ofEnableSmoothing();
 	ofEnableAlphaBlending();
 	// other setup
 	ofSetRectMode(OF_RECTMODE_CENTER);
