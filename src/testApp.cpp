@@ -59,9 +59,9 @@ void testApp::setup(){
 	
 	// screen setup
 	//ofSetCircleResolution(100);
-	// TODO: bug??
-	//ofSetVerticalSync(true);
+	// TODO: bug?? only on nvidia geforce 320m
 	ofSetBackgroundAuto(false);
+	ofSetVerticalSync(true);
 	ofEnableSmoothing();
 	ofEnableAlphaBlending();
 	// other setup
