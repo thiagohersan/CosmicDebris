@@ -17,6 +17,7 @@ class Morphable: public Geometricable {
 public:
 	Morphable();
 	~Morphable();
+	void update();
 	void draw(float x, float y);
 	void draw(float x, float y, float v);
 	void setType(int type);

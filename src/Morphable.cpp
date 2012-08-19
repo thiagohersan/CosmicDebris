@@ -168,6 +168,15 @@ float Morphable::getSize(){
 	return currSize;
 }
 
+// update independent of draw
+//    can change sizes and shapes at speeds independent of flicker speed
+void Morphable::update(){
+	// take a step before drawing
+	if(currState == STATE_MORPHING) {
+		this->morphStep();
+	}
+}
+
 
 // x,y are the center coordinates
 // x,y,v are in pixels
@@ -175,11 +184,6 @@ void Morphable::draw(float x, float y){
 	this->draw(x,y,0);
 }
 void Morphable::draw(float x, float y, float v){
-	// take a step before drawing
-	if(currState == STATE_MORPHING) {
-		this->morphStep();
-	}
-	
 	// reminder: currSize:=[50,400]
 	//           v:=pixels
 	ofPoint rp = ofPoint(ofRandom(-v,v), ofRandom(-v,v));

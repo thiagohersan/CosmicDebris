@@ -49,6 +49,8 @@ void GeometricScene::update(){
 	bgndColor  = ofColor::fromHsb(bHue, 255, 255);
 	myMorphable.setSize(mSize);
 	myMorphable.setType(mShape);
+	
+	myMorphable.update();
 }
 
 void GeometricScene::draw(){
