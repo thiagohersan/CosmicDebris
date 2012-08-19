@@ -27,22 +27,27 @@ Morphable::~Morphable(){}
 // for setting the type of the object
 void Morphable::setType(int type){
 	// check if new type is different from current type
-	if((type%TYPE_SIZE) != currType){
+	if(((type%TYPE_SIZE) != currType) && ((type%TYPE_SIZE) != targetType)){
 		targetType = type%TYPE_SIZE;
 		
 		// most shapes don't use beziers, so clear them here and set them up later if needed
 		for(int i=0; i<targetLeftBez.size(); i++){
 			targetLeftBez.at(i).set(0,0);
 			targetRightBez.at(i).set(0,0);
-		}	
+		}
 		
 		// set up all the target vectors
 		// TODO: {TYPE_KAHANE, TYPE_UNO};
 		switch (targetType) {
 			case TYPE_CIRCLE: {
-				for(int thisI=0; thisI<targetPoints.size(); thisI+=1){
-					// reach around!
+				int iOff = (int)(ofRandom(targetPoints.size()));
+				for(int thisC=0; thisC<targetPoints.size(); thisC++){
+					// real index
+					int thisI = (thisC+iOff)%targetPoints.size();
+
+					// next index, with reach around!
 					int nextI = (thisI+1)%targetPoints.size();
+					int nextC = (thisC+1)%targetPoints.size();
 					
 					// their angles
 					float thisAngle = ofDegToRad(15+thisI*30);
@@ -55,8 +60,8 @@ void Morphable::setType(int type){
 					float nextPy = ofClamp(sin(nextAngle), -1, 1);
 					
 					// boom! target points are set!
-					targetPoints.at(thisI).set(thisPx,thisPy);
-					targetPoints.at(nextI).set(nextPx,nextPy);
+					targetPoints.at(thisC).set(thisPx,thisPy);
+					targetPoints.at(nextC).set(nextPx,nextPy);
 					
 					// vectors from this->next and next->this
 					ofVec2f this2next(nextPx-thisPx, nextPy-thisPy);
@@ -69,38 +74,44 @@ void Morphable::setType(int type){
 					next2this.normalize();
 					
 					// get the location of the bezier point by adding the vectors
-					targetLeftBez.at(thisI).set((next2this + next2this90).scale(0.05));
-					targetRightBez.at(nextI).set((this2next + this2next90).scale(0.05));
+					targetLeftBez.at(thisC).set((next2this + next2this90).scale(0.05));
+					targetRightBez.at(nextC).set((this2next + this2next90).scale(0.05));
 				}
 			}
 				break;
 			case TYPE_SQUARE: {
 				float sqrt2 = sqrt(2);
-				for(int i=0; i<targetPoints.size(); i++){
+				int iOff = (int)(ofRandom(targetPoints.size()));
+				for(int c=0; c<targetPoints.size(); c++){
+					int i = (c+iOff)%targetPoints.size();
 					float angle = ofDegToRad(15+i*30);
 					float px = ofClamp(sqrt2*cos(angle), -1, 1);
 					float py = ofClamp(sqrt2*sin(angle), -1, 1);
-					targetPoints.at(i).set(px,py);
+					targetPoints.at(c).set(px,py);
 				}
 			}
 				break;
 			case TYPE_HOR_RECT: {
 				float sqrt32 = sqrt(3)/2.0;
-				for(int i=0; i<targetPoints.size(); i++){
+				int iOff = (int)(ofRandom(targetPoints.size()));
+				for(int c=0; c<targetPoints.size(); c++){
+					int i = (c+iOff)%targetPoints.size();
 					float angle = ofDegToRad(i*30);
 					float px = ofClamp(cos(angle), -sqrt32, sqrt32);
 					float py = ofClamp(sin(angle), -0.5, 0.5);
-					targetPoints.at(i).set(px,py);
+					targetPoints.at(c).set(px,py);
 				}
 			}
 				break;
 			case TYPE_VER_RECT: {
 				float sqrt32 = sqrt(3)/2.0;
-				for(int i=0; i<targetPoints.size(); i++){
+				int iOff = (int)(ofRandom(targetPoints.size()));
+				for(int c=0; c<targetPoints.size(); c++){
+					int i = (c+iOff)%targetPoints.size();
 					float angle = ofDegToRad(i*30);
 					float px = ofClamp(cos(angle), -0.5, 0.5);
 					float py = ofClamp(sin(angle), -sqrt32, sqrt32);
-					targetPoints.at(i).set(px,py);
+					targetPoints.at(c).set(px,py);
 				}
 			}
 				break;
@@ -146,7 +157,7 @@ void Morphable::setType(int type){
 void Morphable::setSize(float size){
 	// not elegant most
 	float mappedSize = ofMap(size, 0, 1, 30, 400);
-
+	
 	// if the new size is different than the current size, go morph
 	if(fabs(mappedSize - targetSize) > 1) {
 		targetSize = mappedSize;
@@ -189,7 +200,7 @@ void Morphable::draw(float x, float y, float v){
 	ofPoint rp = ofPoint(ofRandom(-v,v), ofRandom(-v,v));
 	float alpha = (currSize<100)?255.0:(ofMap(currSize,100,400,255,0));
 	ofSetColor(ofColor(currColor,alpha));
-
+	
 	ofFill();
 	
 	ofBeginShape();
@@ -214,7 +225,7 @@ void Morphable::draw(float x, float y, float v){
 		ofBezierVertex(c0.x,c0.y, c1.x,c1.y, v1.x,v1.y);
 	}
 	ofEndShape();
-
+	
 	ofNoFill();
 	
 	ofBeginShape();
@@ -247,7 +258,7 @@ void Morphable::draw(float x, float y, float v){
 		ofSetColor(ofColor(255,255,255,255));
 		ofPoint v0 = ofPoint(x,y) + currSize*currPoints.at(i);
 		ofCircle(v0,2);
-
+		
 		ofPoint r0 = v0 + currSize*currRightBez.at(i);
 		ofSetColor(ofColor(255,0,0,255));
 		ofCircle(r0,2);
@@ -280,7 +291,7 @@ void Morphable::morphStep(){
 				// set current points to be 95% current values and 5% target values
 				ofPoint cp = currPoints.at(i);
 				ofPoint tp = targetPoints.at(i);
-				currPoints.at(i).set(0.9*cp + 0.1*tp);
+				currPoints.at(i).set(0.95*cp + 0.05*tp);
 				// check if the new point is the same as the target
 				samePoints = samePoints && (tp.distance(currPoints.at(i)) < 0.01);
 			}
