@@ -12,8 +12,9 @@ public:
 	void draw();
 	void onSerialEvent(serialEventArgs &a);
 protected:
-	ofTrueTypeFont myFont;
-	ofColor myColor;
+	ofImage myImage;
+private:
+	float maxLog2;
 };
 
 #endif
