@@ -5,6 +5,7 @@
 /*
  TODO: add sound
  TODO: static scene
+ TODO: image scene
  */
 
 //========================================================================
