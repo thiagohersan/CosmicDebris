@@ -13,6 +13,8 @@ public:
 	void onSerialEvent(serialEventArgs &a);
 protected:
 	ofImage myImage;
+	enum StaticEnum {STATIC_RANDOM, STATIC_INVERSE};
+	float lastSize;
 private:
 	float maxLog2;
 };

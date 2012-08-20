@@ -56,7 +56,7 @@ void testApp::setup(){
 	autoPilot = !setupSerial();
 	// add a listener for the Canvas object
 	ofAddListener(serialEvent, &c, &Canvas::onSerialEvent);
-	
+
 	// screen setup
 	//ofSetCircleResolution(100);
 	// TODO: bug?? only on nvidia geforce 320m
