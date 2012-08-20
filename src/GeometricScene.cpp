@@ -55,7 +55,7 @@ void GeometricScene::update(){
 
 void GeometricScene::draw(){
 	// time to update !!
-	if((ofGetElapsedTimeMillis() - lastUpdate) > flickerPeriod/2){
+	if((ofGetElapsedTimeMillis() - lastUpdate) > flickerPeriod){
 		// turn on the shapes, turn background off
 		if(turnOn == true){
 			ofBackground(0,0,0,255);
