@@ -15,6 +15,7 @@
 #include "SerialEventArgs.h"
 #include "StaticScene.h"
 #include "GeometricScene.h"
+#include "ImageticScene.h"
 
 #define NUM_ANALOG 6
 #define NUM_DIGITAL 6

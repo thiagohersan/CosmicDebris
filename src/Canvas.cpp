@@ -55,8 +55,8 @@ void Canvas::update(){
 				}
 					break;
 				case SCENE_IMAGE:{
-					//theScene = new ImageticScene(analogVals, digitalVals, &digitalVal);
-					theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
+					theScene = new ImageticScene(analogVals, digitalVals, &digitalVal);
+					//theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
 				}
 					break;
 				default:{
