@@ -1,11 +1,8 @@
 #include "testApp.h"
 
-/**** to init objects declared in the header file
- testApp::testApp() : g(analogVals, digitalVals, &digitalVal){
- }
- */
-
-testApp::testApp(){}
+// inits object declared in the header file
+testApp::testApp() : c(this){
+}
 
 // return true if it sets up a serial communication port
 bool testApp::setupSerial(){
@@ -56,7 +53,7 @@ void testApp::setup(){
 	autoPilot = !setupSerial();
 	// add a listener for the Canvas object
 	ofAddListener(serialEvent, &c, &Canvas::onSerialEvent);
-
+	
 	// screen setup
 	//ofSetCircleResolution(100);
 	// TODO: bug?? only on nvidia geforce 320m
@@ -93,7 +90,6 @@ void testApp::update(){
 	if(ofGetFrameNum()%100 == 0){
 		printf("%f\n",ofGetFrameRate());
 	}
-	
 }
 
 //--------------------------------------------------------------

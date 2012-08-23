@@ -1,11 +1,17 @@
 #include "Canvas.h"
 
-Canvas::Canvas(){
+Canvas::Canvas(ofBaseApp * that){
 	digitalVal = 0;
 	currScene = nextScene = SCENE_STATIC;
 	theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
 	currState = STATE_FADING;
 	fadeAlpha = 255;
+	
+	if(that != NULL){
+		mySoundStream.listDevices();
+		mySoundStream.setup(that, 2, 0, 44100, 512, 2);
+		mySoundStream.setOutput(theScene);		
+	}
 }
 
 Canvas::~Canvas(){
@@ -17,7 +23,7 @@ void Canvas::update(){
 	if(currState == STATE_FADING) {
 		// update fade alpha
 		fadeAlpha += FADE_STEP;
-
+		
 		// if we get to the max, stay on black for a while
 		if(fabs(fadeAlpha) >= 255) {
 			// wait on black for a while
@@ -43,8 +49,9 @@ void Canvas::update(){
 			delete theScene;
 			// clear background to erase previous scene
 			ofBackground(0);
-
-			// pick new scene
+			
+			// pick new scene 
+			// TODO: add sound in/out to oss
 			switch (nextScene) {
 				case SCENE_STATIC:{
 					theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
@@ -64,7 +71,7 @@ void Canvas::update(){
 				}
 					break;
 			}
-
+			
 			// update current scene
 			currScene = nextScene;
 			
@@ -78,10 +85,10 @@ void Canvas::update(){
 	// dealt with states, now deal with serial numbers
 	// non-blocking. can change scenes while fading
 	// TODO: fix this!! we lose scene when we change during a fade-in
-
+	
 	/***** grab scene number from lowest 3 bits of digitalVal ****/
 	unsigned char sceneFromVal = (digitalVal&0x07);
-
+	
 	// if val from serial not equal to next state, we have to trigger a change
 	if(sceneFromVal != (nextScene&0x07)){
 		nextScene = sceneFromVal;

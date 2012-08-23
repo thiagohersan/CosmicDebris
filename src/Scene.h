@@ -4,7 +4,7 @@
 #include "SerialEventArgs.h"
 #include "ofMain.h"
 
-class Scene {
+class Scene: public ofBaseSoundInput, public ofBaseSoundOutput {
 	
 public:
 	virtual ~Scene() {}

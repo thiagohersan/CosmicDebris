@@ -17,6 +17,9 @@ protected:
 	float lastSize;
 private:
 	float maxLog2;
+	
+	// DEBUG
+	void audioRequested(float * output, int bufferSize, int nChannels);
 };
 
 #endif

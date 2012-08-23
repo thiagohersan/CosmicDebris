@@ -38,10 +38,10 @@ StaticScene::StaticScene(unsigned char* aVals_, unsigned char* dVals_, int* dVal
 		}
 	}
 	myImage.update();
-	
 }
 
 StaticScene::~StaticScene(){
+	// close audio ?
 }
 
 void StaticScene::update(){
@@ -142,3 +142,11 @@ void StaticScene::draw(){
 void StaticScene::onSerialEvent(serialEventArgs &a){
 }
 /**/
+
+void StaticScene::audioRequested(float * output, int bufferSize, int nChannels){
+	for(int i=0; i<bufferSize; i++){
+		output[2*i+0] = ofRandom(1)*0.6;
+		output[2*i+1] = ofRandom(1)*0.6;
+	}
+}
+

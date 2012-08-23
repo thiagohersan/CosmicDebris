@@ -3,8 +3,7 @@
 #include "ofAppGlutWindow.h"
 
 /*
- TODO: add sound
- TODO: static scene
+ TODO: add sound to scenes
  TODO: image scene
  */
 

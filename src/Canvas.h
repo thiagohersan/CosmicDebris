@@ -23,26 +23,25 @@
 #define FADE_STEP 5
 
 class Canvas {
-
+	
 public:
-	Canvas();
+	Canvas(ofBaseApp * that=NULL);
 	~Canvas();
 	void update();
 	void draw();
 	void onSerialEvent(serialEventArgs &a);
-
 protected:
 	// invariant: these are always up to date
 	unsigned char analogVals[NUM_ANALOG];
 	unsigned char digitalVals[NUM_DIGITAL];
 	int digitalVal;
-
+	
 	enum StateEnum {STATE_STEADY, STATE_FADING, STATE_BLACK};
 	enum SceneEnum {SCENE_STATIC, SCENE_GEOMETRY, SCENE_IMAGE};
-
+	
 	// keep track of curresnt state (fade or steady)
 	int currState;
-
+	
 	// fade amount. goes from 0->255->0
 	float fadeAlpha;
 	
@@ -50,7 +49,9 @@ protected:
 	int currScene, nextScene;
 	// fucking pointers... hooray!
 	Scene* theScene;
+	
+	// Stream to handle sounds from all scenes
+	ofSoundStream mySoundStream;
 };
-
 
 #endif
