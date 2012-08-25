@@ -7,8 +7,12 @@ StaticScene::StaticScene(unsigned char* aVals_, unsigned char* dVals_, int* dVal
 	digitalVal = dVal_;
 	// flicker state variables
     lastUpdate = ofGetElapsedTimeMillis();
-	bool turnOn = true;
+	turnOn = true;
 	lastSize = 0x1;
+	
+	// volume
+	currVol	= 0.0;
+	targetVol = 0.6;
 	
 	// image to draw static noise pixels
 	myImage.allocate(ofGetWidth(),ofGetHeight(), OF_IMAGE_GRAYSCALE);
@@ -60,15 +64,15 @@ void StaticScene::update(){
 	flickerPeriod = ofMap(analogVals[0], 30,255, 250, 20, true);
 	float sSize = ofMap(analogVals[3], 30,255, 0,maxLog2, true);
 	// the digital value
-
-
+	
+	
 	/* mStatic: what kind of static/flicker
 	 0. just create new random image every period
 	 1. random/inverse every period/2
 	 */	
 	unsigned char mStatic = ((*digitalVal)>>3)&0x07;
 	
-
+	
 	// time to update !!
 	if((ofGetElapsedTimeMillis() - lastUpdate) > flickerPeriod){
 		// static-y image. leet 213 shit
@@ -81,7 +85,7 @@ void StaticScene::update(){
 		
 		// puta... que confusão
 		switch (mStatic) {
-					// new random image every period
+				// new random image every period
 			case STATIC_RANDOM:{
 				for(int i=0; i<iH; i+=pps){
 					int r = i*iW;
@@ -125,6 +129,8 @@ void StaticScene::update(){
 		myImage.update();
 		lastUpdate = ofGetElapsedTimeMillis();
 		lastSize = sSize;
+		turnOn = !turnOn;
+		targetVol = (turnOn)?0.6:0;
 	}
 	
 	
@@ -145,8 +151,9 @@ void StaticScene::onSerialEvent(serialEventArgs &a){
 
 void StaticScene::audioRequested(float * output, int bufferSize, int nChannels){
 	for(int i=0; i<bufferSize; i++){
-		output[2*i+0] = ofRandom(1)*0.6;
-		output[2*i+1] = ofRandom(1)*0.6;
+		output[2*i+0] = ofRandom(1)*currVol;
+		output[2*i+1] = ofRandom(1)*currVol;
 	}
+	currVol = currVol*0.95 + targetVol*0.05;
 }
 
