@@ -8,9 +8,10 @@ Canvas::Canvas(ofBaseApp * that){
 	fadeAlpha = 255;
 	
 	if(that != NULL){
+		// DEBUG
 		mySoundStream.listDevices();
-		mySoundStream.setup(that, 2, 0, 44100, 512, 2);
-		mySoundStream.setOutput(theScene);		
+		mySoundStream.setup(that, 2, 0, 48000, 512, 2);
+		mySoundStream.setOutput(theScene);
 	}
 }
 
@@ -49,9 +50,10 @@ void Canvas::update(){
 			delete theScene;
 			// clear background to erase previous scene
 			ofBackground(0);
-			
-			// pick new scene 
-			// TODO: add sound in/out to oss
+			// stop audio
+			mySoundStream.stop();
+
+			// pick new scene
 			switch (nextScene) {
 				case SCENE_STATIC:{
 					theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
@@ -71,10 +73,14 @@ void Canvas::update(){
 				}
 					break;
 			}
-			
+
+			// restart audio
+			mySoundStream.setOutput(theScene);
+			mySoundStream.start();
+
 			// update current scene
 			currScene = nextScene;
-			
+
 			// switch directions and go back to fade in
 			fadeAlpha = -254.0;
 			currState = STATE_FADING;			
