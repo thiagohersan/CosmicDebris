@@ -17,6 +17,9 @@ protected:
 	ofColor shapeColor, bgndColor;
 	// for random variations
 	float varVar;
+
+	// DEBUG
+	void audioRequested(float * output, int bufferSize, int nChannels);
 };
 
 #endif

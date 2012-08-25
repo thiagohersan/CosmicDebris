@@ -21,6 +21,9 @@ protected:
 	float flickerPeriod;
 	unsigned int lastUpdate;
 	bool turnOn;
+
+	// DEBUG
+	virtual void audioRequested(float * output, int bufferSize, int nChannels) = 0;
 };
 
 #endif

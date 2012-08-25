@@ -14,6 +14,9 @@ public:
 protected:
 	ofTrueTypeFont myFont;
 	ofColor myColor;
+
+	// DEBUG
+	void audioRequested(float * output, int bufferSize, int nChannels);
 };
 
 #endif

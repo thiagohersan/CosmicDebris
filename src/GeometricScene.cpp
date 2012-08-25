@@ -82,4 +82,7 @@ void GeometricScene::draw(){
 	}
 }
 
+// TODO: fill this out
+void GeometricScene::audioRequested(float * output, int bufferSize, int nChannels){}
+
 void GeometricScene::onSerialEvent(serialEventArgs &a){}

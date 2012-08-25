@@ -26,8 +26,9 @@ void ImageticScene::draw(){
 	myFont.drawString("Test from ImageticScene", 100,100);
 }
 
-/**/
-void ImageticScene::onSerialEvent(serialEventArgs &a){
-}
-/**/
+// TODO: fill this out
+void ImageticScene::audioRequested(float * output, int bufferSize, int nChannels){}
+
+void ImageticScene::onSerialEvent(serialEventArgs &a){}
+
 
