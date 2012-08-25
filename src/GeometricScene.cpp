@@ -60,13 +60,11 @@ void GeometricScene::draw(){
 		if(turnOn == true){
 			ofBackground(0,0,0,255);
 			myMorphable.setColor(shapeColor);
-			// TODO: sound on
 		}
 		// turn off shapes, turn background on
 		else{
 			ofBackground(bgndColor);
 			myMorphable.setColor(ofColor(255,0,0,255));
-			// TODO: sound off
 		}
 		
 		// finally, draw the shapes
