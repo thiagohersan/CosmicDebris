@@ -21,8 +21,9 @@ private:
 	float maxLog2;
 	
 	void audioRequested(float * output, int bufferSize, int nChannels);
-	float currFreq, targetFreq, currLfoFreq, targetLfoFreq;
+	float currFreq, targetFreq, currLfoFreq, targetLfoFreq, overallVolume;
 	unsigned char whichSound;
+	unsigned char whichStatic;
 };
 
 #endif
