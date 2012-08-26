@@ -6,11 +6,12 @@ StaticScene::StaticScene(unsigned char* aVals_, unsigned char* dVals_, int* dVal
 	digitalVals = dVals_;
 	digitalVal = dVal_;
 	// flicker state variables
-    lastUpdate = ofGetElapsedTimeMillis();
 	turnOn = true;
+	lastUpdate = 0.0;
+	// size
 	lastSize = 0x1;
 	
-	// volume
+	// sound
 	soundTime = 0.0;
 	currLfoFreq = targetLfoFreq = 0.0;
 	
@@ -52,34 +53,45 @@ void StaticScene::update(){
 	/***** reading the values from the serial
 	 for this scene:
 	 analog[0] = flicker frequency
-	 analog[1] = ....
+	 analog[1] = sound frequency
 	 analog[2] = ....
 	 analog[3] = noise/pixel size
 	 analog[4] = ....
 	 analog[5] = ....
-	 digital[0] = 
-	 digital[1,2] = what kind of static/flicker
+	 digital[0] = what kind of static/flicker
+	 digital[1,2] = what kind of sound
 	 *****/
-
+	
 	// do updates on every frame.
 	flickerPeriod = ofMap(analogVals[0], 30,255, 250, 20, true);
 	targetLfoFreq = 2000*PI/flickerPeriod;
-
-	// TODO: add sound frequency control ??
-
+	
+	// sound frequency control f := [60,200]
+	targetFreq = 2*PI*ofMap(analogVals[1], 30,255, 60,200, true);
+	
+	// size of pixel groups in image
 	float sSize = ofMap(analogVals[3], 30,255, 0,maxLog2, true);
-
+	
 	// the digital values
 	/* mStatic: what kind of static/flicker
 	 0. just create new random image every period
 	 1. inverse every period
-	 */	
-	unsigned char mStatic = ((*digitalVal)>>3)&0x03;
-	// TODO: finish this !!
-	// noise/sine = ((*digitalVal)>>5)&0x01;
+	 */
+	unsigned char mStatic = ((*digitalVal)>>5)&0x01;
 	
+	// more digital values
+	/* picks the kind of noise
+	 0. random noise
+	 1. pure sine wave
+	 2. pre-recorded jazz
+	 */
+	whichSound = ((*digitalVal)>>3)&0x03;
+
 	// time to update !!
-	if((ofGetElapsedTimeMillis() - lastUpdate) > flickerPeriod){
+	// use the sound time (in seconds) to control flicker update
+	// this might be a problem if sound stream goes out...
+	//if((ofGetElapsedTimeMillis() - lastUpdate) > flickerPeriod){
+	if((soundTime - lastUpdate)*1000 > flickerPeriod){
 		// static-y image. leet 213 shit
 		unsigned char* myPixels = myImage.getPixels();
 		int maxI = myImage.getHeight()*myImage.getWidth();
@@ -87,6 +99,8 @@ void StaticScene::update(){
 		int iH = myImage.getHeight();
 		// pixel per square
 		int pps = 0x1<<(int)(sSize);
+		
+		printf("switch!! currTime = %f, vol = %f\n", soundTime, 0.5*(sin(currLfoFreq*soundTime)+1.0));
 		
 		// puta... que confusão
 		switch (mStatic) {
@@ -132,7 +146,9 @@ void StaticScene::update(){
 		}
 		
 		myImage.update();
-		lastUpdate = ofGetElapsedTimeMillis();
+		//lastUpdate = ofGetElapsedTimeMillis();
+		// soundTime is in seconds
+		lastUpdate = soundTime;
 		lastSize = sSize;
 		turnOn = !turnOn;
 	}
@@ -153,29 +169,39 @@ void StaticScene::onSerialEvent(serialEventArgs &a){
 }
 /**/
 
-void StaticScene::audioRequested(float * output, int bufferSize, int nChannels){
-	// 2*pi*f
-	float fr  = 2*PI*200;
-	
+void StaticScene::audioRequested(float * output, int bufferSize, int nChannels){	
 	for(int i=0; i<bufferSize; i++){
 		// update soundTime variable (this is what keeps track of total time)
 		soundTime += 1.0/48000;
-
+		
 		// very unstable
 		//currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 1.0/48000);
+		
 		// unstable enough for awesomeness
 		currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 0.001);
-		float currVol = 0.5*sin(currLfoFreq*soundTime)+1.0;
-		
-		//output[2*i+0] = ofRandom(1)*currVol;
-		//output[2*i+1] = ofRandom(1)*currVol;
 
-		output[2*i+0] = sin(fr*soundTime)*currVol;
-		output[2*i+1] = sin(fr*soundTime)*currVol;
+		float currVol = 0.5*(sin(currLfoFreq*soundTime)+1.0);
 
-		// to avoid clicks, only adjust time if volume is low
-		if((soundTime > 2*PI) && (currVol < 0.05)){
-			soundTime -= 2*PI;
+		switch (whichSound) {
+			case SOUND_NOISE:{
+				output[2*i+0] = ofRandom(-1,1)*currVol;
+				output[2*i+1] = ofRandom(-1,1)*currVol;
+			}
+				break;
+			case SOUND_SINE:{
+				output[2*i+0] = sin(currFreq*soundTime)*currVol;
+				output[2*i+1] = sin(currFreq*soundTime)*currVol;
+			}
+			default:
+				break;
+		}
+
+		// to avoid clicks, only adjust stuff when volume is low
+		if(currVol < 0.01){
+			currFreq = currFreq*0.9 + targetFreq*0.1;
+			if (soundTime > 2*PI){
+				//soundTime -= 2*PI;
+			}
 		}
 	}
 

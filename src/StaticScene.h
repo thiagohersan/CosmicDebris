@@ -14,13 +14,15 @@ public:
 protected:
 	ofImage myImage;
 	enum StaticEnum {STATIC_RANDOM, STATIC_INVERSE};
+	enum SoundEnum {SOUND_NOISE, SOUND_SINE, SOUND_RECORDED};
 	float lastSize;
+	float soundTime, lastUpdate;
 private:
 	float maxLog2;
-
+	
 	void audioRequested(float * output, int bufferSize, int nChannels);
-	float soundTime;
 	float currFreq, targetFreq, currLfoFreq, targetLfoFreq;
+	unsigned char whichSound;
 };
 
 #endif
