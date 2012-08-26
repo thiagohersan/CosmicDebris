@@ -19,7 +19,6 @@ protected:
 	
 	// state variables for flickering, on each scene
 	float flickerPeriod;
-	unsigned int lastUpdate;
 	bool turnOn;
 
 	virtual void audioRequested(float * output, int bufferSize, int nChannels) = 0;

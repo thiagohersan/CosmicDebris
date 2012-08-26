@@ -14,6 +14,8 @@ public:
 protected:
 	ofTrueTypeFont myFont;
 	ofColor myColor;
+	// for flickering
+	unsigned int lastUpdate;
 private:
 	void audioRequested(float * output, int bufferSize, int nChannels);
 };

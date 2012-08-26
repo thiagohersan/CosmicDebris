@@ -17,6 +17,8 @@ protected:
 	ofColor shapeColor, bgndColor;
 	// for random variations
 	float varVar;
+	// for flickering
+	unsigned int lastUpdate;
 private:
 	void audioRequested(float * output, int bufferSize, int nChannels);
 };
