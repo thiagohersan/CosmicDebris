@@ -54,42 +54,64 @@ void StaticScene::update(){
 	/***** reading the values from the serial
 	 for this scene:
 	 analog[0] = flicker frequency
-	 analog[1] = overall volume
-	 analog[2] = sound frequency
-	 analog[3] = noise/pixel size
-	 analog[4] = ....
+	 analog[1] = sound frequency
+	 analog[2] = which sample to play
+	 analog[3] = pixel size
+	 analog[4] = overall volume
 	 analog[5] = ....
 	 digital[0] = what kind of static/flicker
-	 digital[1,2] = what kind of sound
+	 digital[1] = what kind of sound noise/sine
+	 digital[2] = trigger pre-recorded sound
 	 *****/
-	
+
+	// TODO: add separate volume control for sine/noise and recorded samples
+
 	// do updates on every frame.
 	flickerPeriod = ofMap(analogVals[0], 30,255, 250, 20, true);
 	targetLfoFreq = 2000*PI/flickerPeriod;
-
-	// overall sound volume
-	overallVolume = ofMap(analogVals[1], 30,255, 0.0,1.0, true);
-
+	
 	// sound frequency control f := [60,200]
-	targetFreq = 2*PI*ofMap(analogVals[2], 30,255, 60,200, true);
-
+	targetFreq = 2*PI*ofMap(analogVals[1], 30,255, 60,200, true);
+	
+	// sound frequency control f := [60,200]
+	unsigned int readSample = ofMap(analogVals[2], 30,255, 0,20, true);
+	if(readSample != whichSample){
+		stringstream ss;
+		ss << "sound" << readSample << ".mp3"; 
+		mySoundPlayer.loadSound(ss.str());
+		mySoundPlayer.setMultiPlay(true);
+		whichSample = readSample;
+	}
+	
 	// size of pixel groups in image
 	float sSize = ofMap(analogVals[3], 30,255, 0,maxLog2, true);
 	
-	// the digital values
+	// overall sound volume
+	overallVolume = ofMap(analogVals[4], 30,255, 0.0,1.0, true);
+	
 	/* whichStatic: what kind of static/flicker
 	 0. just create new random image every period
 	 1. inverse every period
 	 */
 	whichStatic = ((*digitalVal)>>5)&0x01;
 	
-	// more digital values
 	/* picks the kind of noise
 	 0. random noise
 	 1. pure sine wave
-	 2. pre-recorded jazz
 	 */
-	whichSound = ((*digitalVal)>>3)&0x03;
+	whichSound = ((*digitalVal)>>4)&0x01;
+	
+	/*
+	 trigger samples
+	 */
+	unsigned char triggerVal = ((*digitalVal)>>3)&0x01;
+	if(triggerVal != lastTrigger){
+		lastTrigger = triggerVal;
+		if(triggerVal == 0x1){
+			mySoundPlayer.play();
+		}
+	}
+	
 	
 	// time to update !!
 	// use the sound time (in seconds) to control flicker update
@@ -103,7 +125,7 @@ void StaticScene::update(){
 		int iH = myImage.getHeight();
 		// pixel per square
 		int pps = 0x1<<(int)(sSize);
-
+		
 		// puta... que confusão
 		switch (whichStatic) {
 				// new random image every period
@@ -181,8 +203,11 @@ void StaticScene::audioRequested(float * output, int bufferSize, int nChannels){
 		
 		// unstable enough for awesomeness
 		currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 0.001);
-		
+
 		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
+
+		// set volume on sampler
+		mySoundPlayer.setVolume(lfoVolume*overallVolume);
 		
 		switch (whichSound) {
 			case SOUND_NOISE:{

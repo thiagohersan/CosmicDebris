@@ -14,7 +14,7 @@ public:
 protected:
 	ofImage myImage;
 	enum StaticEnum {STATIC_RANDOM, STATIC_INVERSE};
-	enum SoundEnum {SOUND_NOISE, SOUND_SINE, SOUND_RECORDED};
+	enum SoundEnum {SOUND_NOISE, SOUND_SINE};
 	float lastSize;
 	float soundTime, lastUpdate;
 private:
@@ -24,6 +24,8 @@ private:
 	float currFreq, targetFreq, currLfoFreq, targetLfoFreq, overallVolume;
 	unsigned char whichSound;
 	unsigned char whichStatic;
+	unsigned char whichSample, lastTrigger;
+	ofSoundPlayer mySoundPlayer;
 };
 
 #endif

@@ -46,12 +46,12 @@ void Canvas::update(){
 		
 		// if we're done waiting here, change scenes
 		if(fabs(fadeAlpha) > 500){
+			// stop audio
+			mySoundStream.stop();
 			// do some memory management
 			delete theScene;
 			// clear background to erase previous scene
 			ofBackground(0);
-			// stop audio
-			mySoundStream.stop();
 
 			// pick new scene
 			switch (nextScene) {
