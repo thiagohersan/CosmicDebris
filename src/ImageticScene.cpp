@@ -27,7 +27,7 @@ void ImageticScene::draw(){
 }
 
 // TODO: fill this out
-void ImageticScene::audioRequested(float * output, int bufferSize, int nChannels){}
+void ImageticScene::audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){}
 
 void ImageticScene::onSerialEvent(serialEventArgs &a){}
 

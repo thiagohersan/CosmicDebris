@@ -17,7 +17,7 @@ protected:
 	// for flickering
 	unsigned int lastUpdate;
 private:
-	void audioRequested(float * output, int bufferSize, int nChannels);
+	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
 };
 
 #endif
