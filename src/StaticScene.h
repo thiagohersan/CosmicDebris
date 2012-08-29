@@ -20,11 +20,11 @@ protected:
 private:
 	float maxLog2;
 	
-	void audioRequested(float * output, int bufferSize, int nChannels);
+	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
 	float currFreq, targetFreq, currLfoFreq, targetLfoFreq, overallVolume, sineVolume;
 	unsigned char whichSound;
 	unsigned char whichStatic;
-	unsigned char whichSample, lastTrigger;
+	unsigned char whichSample, lastTriggerVal;
 	ofSoundPlayer mySoundPlayer;
 };
 

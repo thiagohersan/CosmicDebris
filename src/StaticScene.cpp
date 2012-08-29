@@ -67,8 +67,6 @@ void StaticScene::update(){
 	 digital[2] = trigger pre-recorded sound
 	 *****/
 
-	// TODO: add separate volume control for sine/noise and recorded samples
-
 	// do updates on every frame.
 	flickerPeriod = ofMap(analogVals[0], 30,255, 250, 20, true);
 	targetLfoFreq = 2000*PI/flickerPeriod;
@@ -111,14 +109,14 @@ void StaticScene::update(){
 	 trigger samples
 	 */
 	unsigned char triggerVal = ((*digitalVal)>>3)&0x01;
-	if(triggerVal != lastTrigger){
-		lastTrigger = triggerVal;
+	if(triggerVal != lastTriggerVal){
+		lastTriggerVal = triggerVal;
 		if(triggerVal == 0x1){
 			mySoundPlayer.play();
 		}
 	}
-	
-	
+
+
 	// time to update !!
 	// use the sound time (in seconds) to control flicker update
 	// this might be a problem if sound stream goes out...
@@ -199,7 +197,8 @@ void StaticScene::onSerialEvent(serialEventArgs &a){
 }
 /**/
 
-void StaticScene::audioRequested(float * output, int bufferSize, int nChannels){	
+// audi-oh
+void StaticScene::audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){
 	for(int i=0; i<bufferSize; i++){
 		// update soundTime variable (this is what keeps track of total time)
 		soundTime += 1.0/48000;
