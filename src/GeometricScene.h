@@ -18,9 +18,10 @@ protected:
 	// for random variations
 	float varVar;
 	// for flickering
-	unsigned int lastUpdate;
+	//unsigned int lastUpdate;
+	float soundTime, lastUpdate;
 private:
-	void audioRequested(float * output, int bufferSize, int nChannels);
+	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
 };
 
 #endif

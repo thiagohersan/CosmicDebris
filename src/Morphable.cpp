@@ -200,9 +200,9 @@ void Morphable::draw(float x, float y, float v){
 	ofPoint rp = ofPoint(ofRandom(-v,v), ofRandom(-v,v));
 	float alpha = (currSize<100)?255.0:(ofMap(currSize,100,400,255,0));
 	ofSetColor(ofColor(currColor,alpha));
-	
+
 	ofFill();
-	
+
 	ofBeginShape();
 	for(int i=0; i<currPoints.size(); i++){
 		// bezier polygon. two vertex points and two control points
