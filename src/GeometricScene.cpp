@@ -56,8 +56,8 @@ void GeometricScene::update(){
 }
 
 void GeometricScene::draw(){
-	// TODO: draw this on a buffer?
 	// time to update !!
+
 	if((soundTime - lastUpdate)*1000 > flickerPeriod){
 		// turn on the shapes, turn background off
 		if(turnOn == true){
@@ -67,7 +67,7 @@ void GeometricScene::draw(){
 		// turn off shapes, turn background on
 		else{
 			ofBackground(bgndColor);
-			myMorphable.setColor(ofColor(255,0,0,255));
+			myMorphable.setColor(ofColor(255,255,255,255));
 		}
 		
 		// finally, draw the shapes
