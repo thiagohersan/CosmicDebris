@@ -70,7 +70,7 @@ void StaticScene::update(){
 	// do updates on every frame.
 	flickerPeriod = ofMap(analogVals[0], 30,255, 250, 20, true);
 	targetLfoFreq = 2000*PI/flickerPeriod;
-	
+
 	// size of pixel groups in image
 	float sSize = ofMap(analogVals[1], 30,255, 0,maxLog2, true);
 
@@ -89,10 +89,10 @@ void StaticScene::update(){
 
 	// volume control for sine/noise
 	sineVolume = ofMap(analogVals[4], 40,255, 0.0,1.0, true);
-	
+
 	// overall sound volume
-	overallVolume = ofMap(analogVals[5], 40,255, 0.0,1.0, true);
-	
+	overallVolume = ofMap(analogVals[5], 40,255, 0.0,1.2, true);
+
 	/* whichStatic: what kind of static/flicker
 	 0. just create new random image every period
 	 1. inverse every period
@@ -192,20 +192,17 @@ void StaticScene::draw(){
 	myImage.draw(ofGetWidth()/2,ofGetHeight()/2);
 }
 
-/**/
-void StaticScene::onSerialEvent(serialEventArgs &a){
-}
-/**/
+void StaticScene::onSerialEvent(serialEventArgs &a){}
 
 // audi-oh
 void StaticScene::audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){
 	for(int i=0; i<bufferSize; i++){
 		// update soundTime variable (this is what keeps track of total time)
 		soundTime += 1.0/48000;
-		
+
 		// very unstable
 		//currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 1.0/48000);
-		
+
 		// unstable enough for awesomeness
 		currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 0.001);
 
@@ -221,8 +218,8 @@ void StaticScene::audioOut( float * output, int bufferSize, int nChannels, int d
 					samp *= lfoVolume;
 				}
 				
-				output[2*i+0] = samp*0.8*sineVolume*overallVolume;
-				output[2*i+1] = samp*0.8*sineVolume*overallVolume;
+				output[2*i+0] = samp*0.1*sineVolume*overallVolume;
+				output[2*i+1] = samp*0.1*sineVolume*overallVolume;
 			}
 				break;
 			case SOUND_SINE:{
