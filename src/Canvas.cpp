@@ -8,9 +8,9 @@ Canvas::Canvas(ofBaseApp * that){
 	fadeAlpha = 255;
 	
 	if(that != NULL){
-		// DEBUG
+		// DEBUG: check in/out sample rates
 		mySoundStream.listDevices();
-		mySoundStream.setup(that, 2, 0, 48000, 512, 2);
+		mySoundStream.setup(that, 2, 1, 48000, 512, 2);
 		mySoundStream.setOutput(theScene);
 	}
 }
@@ -65,7 +65,11 @@ void Canvas::update(){
 					break;
 				case SCENE_IMAGE:{
 					theScene = new ImageticScene(analogVals, digitalVals, &digitalVal);
-					//theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
+				}
+					break;
+				case SCENE_PARTICLE:{
+					// TODO implement/change this
+					theScene = new ImageticScene(analogVals, digitalVals, &digitalVal);
 				}
 					break;
 				default:{
@@ -75,6 +79,7 @@ void Canvas::update(){
 			}
 
 			// restart audio
+			mySoundStream.setInput(theScene);
 			mySoundStream.setOutput(theScene);
 			mySoundStream.start();
 

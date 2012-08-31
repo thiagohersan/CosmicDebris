@@ -20,8 +20,11 @@ protected:
 	// for flickering
 	//unsigned int lastUpdate;
 	float soundTime, lastUpdate;
+	float currLfoFreq, targetLfoFreq, overallVolume;
 private:
 	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
+	void audioIn( float * input, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
+	float * soundBuffer;
 };
 
 #endif

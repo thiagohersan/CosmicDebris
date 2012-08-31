@@ -37,7 +37,7 @@ protected:
 	int digitalVal;
 	
 	enum StateEnum {STATE_STEADY, STATE_FADING, STATE_BLACK};
-	enum SceneEnum {SCENE_STATIC, SCENE_GEOMETRY, SCENE_IMAGE};
+	enum SceneEnum {SCENE_STATIC, SCENE_GEOMETRY, SCENE_IMAGE, SCENE_PARTICLE};
 	
 	// keep track of curresnt state (fade or steady)
 	int currState;

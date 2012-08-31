@@ -14,16 +14,25 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
     lastUpdate = 0.0;
 	soundTime = 0.0;
 	turnOn = true;
-	
+
+	// volume control
+	overallVolume = 0.0;
+	currLfoFreq = targetLfoFreq = 0.0;
+
 	// colors
 	shapeColor = ofColor(255,255,255);
 	bgndColor = ofColor(0,0,0);
 	
 	// noise
 	varVar = 0;
+	
+	// here we go...
+	// TODO: variable sized buffer please
+	soundBuffer = new float[512];
 }
 
 GeometricScene::~GeometricScene(){
+	delete soundBuffer;
 }
 
 void GeometricScene::update(){
@@ -34,7 +43,7 @@ void GeometricScene::update(){
 	 analog[2] = bgnd color
 	 analog[3] = shape color
 	 analog[4] = shape variation randomness
-	 analog[5] = ....
+	 analog[5] = overall volume
 	 digital[0,1,2] = which shape
 	 *****/
 	
@@ -46,7 +55,12 @@ void GeometricScene::update(){
 	
 	varVar = ofMap(analogVals[4], 30,255, 0,20, true);
 	unsigned char mShape = ((*digitalVal)>>3)&0x07;
-	
+
+	// overall sound volume
+	overallVolume = ofMap(analogVals[5], 40,255, 0.0,1.2, true);
+	// target lfo frequency
+	targetLfoFreq = 2000*PI/flickerPeriod;
+
 	shapeColor = ofColor::fromHsb(sHue, 255, 255);
 	bgndColor  = ofColor::fromHsb(bHue, 255, 255);
 	myMorphable.setSize(mSize);
@@ -84,11 +98,29 @@ void GeometricScene::draw(){
 }
 
 // TODO: fill this out
+void GeometricScene::audioIn( float * input, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){
+	for(int i=0; (i<bufferSize)&(i<512); i++){
+		//soundBuffer[i] *= 0.5;
+		//soundBuffer[i] += 0.5*input[i];
+		soundBuffer[i] = input[i];
+	}
+}
 
 void GeometricScene::audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){
 	for(int i=0; i<bufferSize; i++){
 		// update soundTime variable (this is what keeps track of total time)
 		soundTime += 1.0/48000;
+		
+		// very unstable
+		//currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 1.0/48000);
+		
+		// unstable enough for awesomeness
+		currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 0.001);
+		
+		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
+
+		output[2*i+0] = soundBuffer[i]*lfoVolume*overallVolume;
+		output[2*i+1] = soundBuffer[i]*lfoVolume*overallVolume;
 	}
 }
 
