@@ -68,8 +68,7 @@ void Canvas::update(){
 				}
 					break;
 				case SCENE_PARTICLE:{
-					// TODO implement/change this
-					theScene = new ImageticScene(analogVals, digitalVals, &digitalVal);
+					theScene = new ParticleScene(analogVals, digitalVals, &digitalVal);
 				}
 					break;
 				default:{
