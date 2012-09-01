@@ -69,14 +69,14 @@ void StaticScene::update(){
 	 *****/
 
 	// do updates on every frame.
-	flickerPeriod = ofMap(analogVals[0], 30,255, 250, 20, true);
+	flickerPeriod = ofMap(analogVals[0], 40,250, 250, 20, true);
 	targetLfoFreq = 2000*PI/flickerPeriod;
 
 	// size of pixel groups in image
-	float sSize = ofMap(analogVals[1], 30,255, 0,maxLog2, true);
+	float sSize = ofMap(analogVals[1], 40,250, 0,maxLog2, true);
 
 	// sound frequency control f := [60,200]
-	unsigned int readSample = ofMap(analogVals[2], 30,255, 0,20, true);
+	unsigned int readSample = ofMap(analogVals[2], 30,250, 0,20, true);
 	if(readSample != whichSample){
 		stringstream ss;
 		ss << "sound" << readSample << ".mp3"; 
@@ -86,13 +86,13 @@ void StaticScene::update(){
 	}
 
 	// sound frequency control f := [60,200]
-	targetFreq = 2*PI*ofMap(analogVals[3], 30,255, 60,200, true);
+	targetFreq = 2*PI*ofMap(analogVals[3], 40,250, 60,200, true);
 
 	// volume control for sine/noise
-	sineVolume = ofMap(analogVals[4], 40,255, 0.0,1.0, true);
+	sineVolume = ofMap(analogVals[4], 40,250, 0.0,1.0, true);
 
 	// overall sound volume
-	overallVolume = ofMap(analogVals[5], 40,255, 0.0,1.2, true);
+	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
 
 	/* whichStatic: what kind of static/flicker
 	 0. just create new random image every period

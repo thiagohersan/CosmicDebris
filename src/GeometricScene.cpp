@@ -48,16 +48,16 @@ void GeometricScene::update(){
 	 *****/
 	
 	// do updates on every frame. but the shapes only do any work if the new values are different
-	flickerPeriod = ofMap(analogVals[0], 30,255, 250, 20, true);
-	float mSize = ofMap(analogVals[1], 30,255, 0,1, true);
-	float bHue = ofMap(analogVals[2], 30,255, 0,255, true);
-	float sHue = ofMap(analogVals[3], 30,255, 0,255, true);
+	flickerPeriod = ofMap(analogVals[0], 40,250, 250, 20, true);
+	float mSize = ofMap(analogVals[1], 40,250, 0,1, true);
+	float bHue = ofMap(analogVals[2], 40,250, 0,255, true);
+	float sHue = ofMap(analogVals[3], 40,250, 0,255, true);
 	
-	varVar = ofMap(analogVals[4], 30,255, 0,20, true);
+	varVar = ofMap(analogVals[4], 40,250, 0,20, true);
 	unsigned char mShape = ((*digitalVal)>>3)&0x07;
 
 	// overall sound volume
-	overallVolume = ofMap(analogVals[5], 40,255, 0.0,1.2, true);
+	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
 	// target lfo frequency
 	targetLfoFreq = 2000*PI/flickerPeriod;
 
