@@ -22,7 +22,7 @@ protected:
 private:
 	vector<SimpleParticle> myParts;
 	vector<ofVec2f> myTargets;
-	static int numParts, numGroups;
+	int numParts, numGroups;
 };
 
 #endif
