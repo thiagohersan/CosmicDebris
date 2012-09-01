@@ -110,13 +110,13 @@ void GeometricScene::audioOut( float * output, int bufferSize, int nChannels, in
 	for(int i=0; i<bufferSize; i++){
 		// update soundTime variable (this is what keeps track of total time)
 		soundTime += 1.0/48000;
-		
+
 		// very unstable
 		//currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 1.0/48000);
-		
+
 		// unstable enough for awesomeness
 		currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 0.001);
-		
+
 		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
 
 		output[2*i+0] = soundBuffer[i]*lfoVolume*overallVolume;

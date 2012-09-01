@@ -6,6 +6,7 @@ StaticScene::StaticScene(unsigned char* aVals_, unsigned char* dVals_, int* dVal
 	digitalVals = dVals_;
 	digitalVal = dVal_;
 	// flicker state variables
+	flickerPeriod = 100000;
 	turnOn = true;
 	lastUpdate = 0.0;
 	// size

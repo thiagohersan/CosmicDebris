@@ -12,12 +12,13 @@ public:
 	void draw();
 	void onSerialEvent(serialEventArgs &a);
 protected:
-	ofTrueTypeFont myFont;
-	ofColor myColor;
 	// for flickering
 	unsigned int lastUpdate;
-private:
+	//
 	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
+private:
+	ofTrueTypeFont myFont;
+	ofColor myColor;
 };
 
 #endif

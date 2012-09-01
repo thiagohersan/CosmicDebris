@@ -17,15 +17,14 @@ protected:
 	enum SoundEnum {SOUND_NOISE, SOUND_SINE};
 	float lastSize;
 	float soundTime, lastUpdate;
+	float currFreq, targetFreq, currLfoFreq, targetLfoFreq, overallVolume, sineVolume;
+	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
+	ofSoundPlayer mySoundPlayer;
 private:
 	float maxLog2;
-	
-	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
-	float currFreq, targetFreq, currLfoFreq, targetLfoFreq, overallVolume, sineVolume;
 	unsigned char whichSound;
 	unsigned char whichStatic;
 	unsigned char whichSample, lastTriggerVal;
-	ofSoundPlayer mySoundPlayer;
 };
 
 #endif

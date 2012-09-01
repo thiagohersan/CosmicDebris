@@ -7,7 +7,8 @@ ImageticScene::ImageticScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 	digitalVal = dVal_;
 	// flicker state variables
     lastUpdate = ofGetElapsedTimeMillis();
-	bool turnOn = true;
+	turnOn = true;
+	flickerPeriod = 100000;
 	
 	// DEBUG
 	myFont.loadFont("Arial Bold.ttf",32);
