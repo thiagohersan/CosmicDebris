@@ -69,13 +69,18 @@ void ParticleScene::update(){
 	// what kind of flicker
 	whichFlicker = ((*digitalVal)>>3)&0x03;
 	
+	// iterate over the particles, set target and size
+	for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it){
+		// TODO:
+		//       set random group target (every frame?)
+		//       set radius and update (every frame, we'll update every frame anyways)
+		(*it).setRadius(pSize);
+		(*it).update();
+	}
 	
-	// TODO: update particles here
-	//   for all particles
-	//       set random group target (every frame?)
-	//       set radius (every frame, we'll update every frame anyways)
-	//       update()
-	//   for all groups
+
+	
+	//   TODO: for all groups
 	//       update target a little bit
 }
 
@@ -109,6 +114,7 @@ void ParticleScene::draw(){
 					ofBackground(theColor.r,theColor.g,theColor.b);
 				}
 			}
+				break;
 			case FLICKER_BOTH:{
 				// flicker bgnd+particle on/off color+white/black+color
 				if(turnOn){
