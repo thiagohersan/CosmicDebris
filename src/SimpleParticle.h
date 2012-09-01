@@ -14,9 +14,10 @@ public:
 	void setColor(ofColor c);
 	void setRadius(float r);
 	void setColorAndRadius(ofColor c, float r);
-	void setVel(float vv);
+	void setMaxVel(float vv);
 	bool isDead();
 	void setTarget(ofVec2f tv);
+	void resetPos();
 	
 	void update();
 	void draw();

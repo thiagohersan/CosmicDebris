@@ -6,7 +6,7 @@ SimpleParticle::SimpleParticle(){
 	myColor = ofColor(0xFFFFFFFF);
 	myRadius = 30;
 	velVal = ofRandom(-2,2);
-	
+
 	//////
 	pos.set(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
 	vel.set(0,0);
@@ -29,10 +29,14 @@ void SimpleParticle::setColorAndRadius(ofColor c, float r){
 void SimpleParticle::setRadius(float r) {
 	myRadius = r;
 }
-void SimpleParticle::setVel(float vv) {
+void SimpleParticle::setMaxVel(float vv) {
 	velVal = ofClamp(vv, -3, 3);
 }
-
+void SimpleParticle::resetPos() {
+	velVal = ofRandom(-2,2);
+	pos.set(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
+	vel.set(0,0);
+}
 
 
 bool SimpleParticle::isDead() {
