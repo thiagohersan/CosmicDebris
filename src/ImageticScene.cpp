@@ -7,7 +7,6 @@ ImageticScene::ImageticScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 	digitalVal = dVal_;
 	// flicker state variables
     lastUpdate = ofGetElapsedTimeMillis();
-	turnOn = true;
 	flickerPeriod = 100000;
 	
 	// DEBUG

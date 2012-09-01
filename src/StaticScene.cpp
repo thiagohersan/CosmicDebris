@@ -7,7 +7,6 @@ StaticScene::StaticScene(unsigned char* aVals_, unsigned char* dVals_, int* dVal
 	digitalVal = dVal_;
 	// flicker state variables
 	flickerPeriod = 100000;
-	turnOn = true;
 	lastUpdate = 0.0;
 	// size
 	lastSize = 0x1;
@@ -179,7 +178,6 @@ void StaticScene::update(){
 		// soundTime is in seconds
 		lastUpdate = soundTime;
 		lastSize = sSize;
-		turnOn = !turnOn;
 	}
 	
 	

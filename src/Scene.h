@@ -19,8 +19,8 @@ protected:
 	
 	// state variables for flickering, on each scene
 	float flickerPeriod;
-	bool turnOn;
-
+	float soundTime, lastUpdate;
+	// sound functions
 	virtual void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ) = 0;
 };
 

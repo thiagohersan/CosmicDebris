@@ -16,7 +16,6 @@ protected:
 	enum StaticEnum {STATIC_RANDOM, STATIC_INVERSE};
 	enum SoundEnum {SOUND_NOISE, SOUND_SINE};
 	float lastSize;
-	float soundTime, lastUpdate;
 	float currFreq, targetFreq, currLfoFreq, targetLfoFreq, overallVolume, sineVolume;
 	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
 	ofSoundPlayer mySoundPlayer;

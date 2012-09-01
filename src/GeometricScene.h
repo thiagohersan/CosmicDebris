@@ -15,11 +15,9 @@ public:
 protected:
 	Morphable myMorphable;
 	ofColor shapeColor, bgndColor;
+	bool turnOn;
 	// for random variations
 	float varVar;
-	// for flickering
-	//unsigned int lastUpdate;
-	float soundTime, lastUpdate;
 	float currLfoFreq, targetLfoFreq, overallVolume;
 	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
 	void audioIn( float * input, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );

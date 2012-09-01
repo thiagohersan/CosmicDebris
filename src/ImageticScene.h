@@ -12,9 +12,6 @@ public:
 	void draw();
 	void onSerialEvent(serialEventArgs &a);
 protected:
-	// for flickering
-	unsigned int lastUpdate;
-	//
 	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
 private:
 	ofTrueTypeFont myFont;
