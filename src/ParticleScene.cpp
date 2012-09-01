@@ -70,15 +70,15 @@ void ParticleScene::update(){
 	whichFlicker = ((*digitalVal)>>3)&0x03;
 	
 	// iterate over the particles, set target and size
+	int ai = 0;
 	for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it){
-		// TODO:
-		//       set random group target (every frame?)
-		//       set radius and update (every frame, we'll update every frame anyways)
+		// set random group target (every frame?)
+		(*it).setTarget(myTargets.at(ai/(numParts/numGroups)));
+		// set radius and update (every frame, we call update() every frame anyways...)
 		(*it).setRadius(pSize);
 		(*it).update();
+		ai++;
 	}
-	
-
 	
 	//   TODO: for all groups
 	//       update target a little bit
