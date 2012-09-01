@@ -14,6 +14,7 @@
 		84C9FC8015DB6F7F007EAED3 /* Morphable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C9FC7F15DB6F7F007EAED3 /* Morphable.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		CE4D953B15E29B1D00313A79 /* ImageticScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE4D953915E29B1D00313A79 /* ImageticScene.cpp */; };
+		CED8B15615F167CE003EF7F2 /* SimpleParticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CED8B15515F167CE003EF7F2 /* SimpleParticle.cpp */; };
 		CEFC3ECF15E684060044C5AC /* ofxSoundEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEFC3EBF15E684060044C5AC /* ofxSoundEffect.cpp */; };
 		CEFC3ED015E684060044C5AC /* ofxSoundUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEFC3EC115E684060044C5AC /* ofxSoundUnit.cpp */; };
 		CEFC3ED115E684060044C5AC /* ofxSynth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEFC3EC315E684060044C5AC /* ofxSynth.cpp */; };
@@ -87,6 +88,8 @@
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		CE4D953915E29B1D00313A79 /* ImageticScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageticScene.cpp; sourceTree = "<group>"; };
 		CE4D953A15E29B1D00313A79 /* ImageticScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageticScene.h; sourceTree = "<group>"; };
+		CED8B15415F167CE003EF7F2 /* SimpleParticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleParticle.h; sourceTree = "<group>"; };
+		CED8B15515F167CE003EF7F2 /* SimpleParticle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleParticle.cpp; sourceTree = "<group>"; };
 		CEFC3EBD15E684060044C5AC /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		CEFC3EBF15E684060044C5AC /* ofxSoundEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSoundEffect.cpp; sourceTree = "<group>"; };
 		CEFC3EC015E684060044C5AC /* ofxSoundEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSoundEffect.h; sourceTree = "<group>"; };
@@ -270,6 +273,8 @@
 				84C9FC7E15DB6F7F007EAED3 /* Morphable.h */,
 				84C9FC7F15DB6F7F007EAED3 /* Morphable.cpp */,
 				84C9FEA915DD3F16007EAED3 /* SerialEventArgs.h */,
+				CED8B15415F167CE003EF7F2 /* SimpleParticle.h */,
+				CED8B15515F167CE003EF7F2 /* SimpleParticle.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -383,6 +388,7 @@
 				CEFC3ED415E684060044C5AC /* ofxSynthFilter.cpp in Sources */,
 				CEFC3ED515E684060044C5AC /* ofxSynthSampler.cpp in Sources */,
 				CEFC3ED615E684060044C5AC /* ofxSynthWaveWriter.cpp in Sources */,
+				CED8B15615F167CE003EF7F2 /* SimpleParticle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
