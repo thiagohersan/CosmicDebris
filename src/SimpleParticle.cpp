@@ -48,7 +48,7 @@ bool SimpleParticle::isDead() {
 }
 
 void SimpleParticle::setTarget(ofVec2f tv) {
-    // unit vector towards target??
+	// unit vector towards target??
     vel = pos - tv;
     if (vel.squareLength() > 1) {
 		vel.normalize();
@@ -61,13 +61,10 @@ void SimpleParticle::update() {
     pos += vel;
 }
 void SimpleParticle::draw() {
-	ofPushMatrix();
-	ofTranslate(pos);
 	ofSetColor(myColor);
 	ofFill();
 	ofCircle(pos, myRadius);
 	ofNoFill();
 	ofCircle(pos, myRadius);
-	ofPopMatrix();
 }
 
