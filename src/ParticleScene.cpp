@@ -28,6 +28,8 @@ ParticleScene::ParticleScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 	// pick random targets
 	for(int i=0; i<numGroups; i++){
 		myTargets.push_back(ofVec2f(ofRandom(ofGetWidth()), ofRandom(ofGetHeight())));
+		//myTargets.push_back(ofVec2f(ofRandom(0.1*ofGetWidth(), 0.9*ofGetWidth()), ofRandom(0.1*ofGetHeight(), 0.9*ofGetHeight())));
+		//myTargets.push_back(ofVec2f(ofGetWidth()/2, ofGetHeight()/2));
 	}	
 }
 
@@ -72,6 +74,10 @@ void ParticleScene::update(){
 	// iterate over the particles, set target and size
 	int ai = 0;
 	for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it){
+		// check for dead ones...
+		if((*it).isDead() == true){
+			(*it).resetPos();
+		}
 		// set random group target (every frame?)
 		(*it).setTarget(myTargets.at(ai/(numParts/numGroups)));
 		// set radius and update (every frame, we call update() every frame anyways...)
