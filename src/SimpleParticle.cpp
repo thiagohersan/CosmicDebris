@@ -11,6 +11,8 @@ SimpleParticle::SimpleParticle(){
 	pos.set(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
 	vel.set(0,0);
 }
+SimpleParticle::~SimpleParticle(){}
+
 
 ofVec2f SimpleParticle::getPos() {
     return pos;
