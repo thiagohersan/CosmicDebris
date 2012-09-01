@@ -56,7 +56,7 @@ void ParticleScene::update(){
 	// color/hue control
 	float theHue = ofMap(analogVals[2], 40,250, 0,255, true);
 	// alpha control a := [1,255]
-	float pAlpha = ofMap(analogVals[3], 40,250, 1,255, true);
+	float pAlpha = ofMap(analogVals[3], 40,250, 16,255, true);
 	theColor = ofColor::fromHsb(theHue, 255, 255, pAlpha);
 
 	// ????
