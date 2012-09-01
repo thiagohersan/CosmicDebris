@@ -12,8 +12,8 @@ public:
 
 	ofVec2f getPos();
 	void setColor(ofColor c);
-	void setAlpha(float a);
 	void setRadius(float r);
+	void setColorAndRadius(ofColor c, float r);
 	void setVel(float vv);
 	bool isDead();
 	void setTarget(ofVec2f tv);
@@ -22,7 +22,7 @@ public:
 	void draw();
 
 private:
-	ofVec2f pos, vel, acc;	
+	ofVec2f pos, vel;	
 	ofColor myColor;
 	float myRadius;
 	float velVal;

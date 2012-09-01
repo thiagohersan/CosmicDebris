@@ -10,7 +10,6 @@ SimpleParticle::SimpleParticle(){
 	//////
 	pos.set(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
 	vel.set(0,0);
-	acc.set(0,0);
 }
 
 ofVec2f SimpleParticle::getPos() {
@@ -21,8 +20,9 @@ ofVec2f SimpleParticle::getPos() {
 void SimpleParticle::setColor(ofColor c) {
     myColor = c;
 }
-void SimpleParticle::setAlpha(float a) {
-	myColor = ofColor(myColor,a);
+void SimpleParticle::setColorAndRadius(ofColor c, float r){
+	myColor = c;
+	myRadius = r;
 }
 void SimpleParticle::setRadius(float r) {
 	myRadius = r;
@@ -52,7 +52,6 @@ void SimpleParticle::setTarget(ofVec2f tv) {
 
 
 void SimpleParticle::update() {
-    vel += acc;
     pos += vel;
 }
 void SimpleParticle::draw() {
