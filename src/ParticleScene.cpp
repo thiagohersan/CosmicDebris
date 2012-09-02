@@ -35,6 +35,10 @@ ParticleScene::ParticleScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 		// set random group target
 		(*it).setTarget(myTargets.at(ai/(numParts/numGroups)));
 	}
+	/////////
+	pColor = ofColor(255,theColor.a);
+	bColor = ofColor(0,255);
+	
 }
 
 ParticleScene::~ParticleScene(){}
@@ -89,12 +93,11 @@ void ParticleScene::update(){
 void ParticleScene::draw(){
 	// flicker here
 	if((soundTime-lastUpdate)*1000 > flickerPeriod){
-
 		// set colors... sigh...
 		// default particle color (white with alpha)
-		ofColor pColor(255,theColor.a);
+		pColor = ofColor(255,theColor.a);
 		// default background (white)
-		ofBackground(0,255);
+		bColor = ofColor(0,255);		
 		switch (whichFlicker) {
 			case FLICKER_NEITHER:{
 				// flicker particles on/off (white/black)
@@ -113,17 +116,17 @@ void ParticleScene::draw(){
 			case FLICKER_BGND:{
 				// flicker bgnd on/off color/black
 				if(turnOn){
-					ofBackground(theColor.r,theColor.g,theColor.b);
+					bColor = ofColor(theColor.r,theColor.g,theColor.b);
 				}
 			}
 				break;
 			case FLICKER_BOTH:{
 				// flicker bgnd+particle on/off color+white/white+color
 				if(turnOn){
-					ofBackground(theColor.r,theColor.g,theColor.b,255);
+					bColor = ofColor(theColor.r,theColor.g,theColor.b,255);
 				}
 				else{
-					ofBackground(255,255);
+					bColor = ofColor(255,255);
 					pColor = theColor;
 				}
 			}
@@ -131,14 +134,17 @@ void ParticleScene::draw(){
 				break;
 		}
 		
-		// iterate over the particles, set color and draw
-		for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it){
-			(*it).draw(pColor);
-		}
 		// update flicker variables
 		lastUpdate = soundTime;
 		turnOn = !turnOn;		
 	}
+	
+	///////// draw every frame !
+	ofBackground(bColor);
+	// iterate over the particles, set color and draw
+	for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it){
+		(*it).draw(pColor);
+	}	
 }
 
 void ParticleScene::audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){

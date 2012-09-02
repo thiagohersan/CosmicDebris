@@ -23,6 +23,7 @@ private:
 	vector<SimpleParticle> myParts;
 	vector<ofVec2f> myTargets;
 	int numParts, numGroups;
+	ofColor pColor, bColor;
 };
 
 #endif
