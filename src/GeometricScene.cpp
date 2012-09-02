@@ -17,11 +17,11 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
     lastUpdate = 0.0;
 	soundTime = 0.0;
 	turnOn = true;
-
+	
 	// volume control
 	overallVolume = 0.0;
 	currLfoFreq = targetLfoFreq = 0.0;
-
+	
 	// colors
 	shapeColor = ofColor(255,255,255);
 	bgndColor = ofColor(255,255);
@@ -58,12 +58,12 @@ void GeometricScene::update(){
 	flickerPeriod = ofMap(analogVals[0], 40,250, 250, 20, true);
 	// target lfo frequency
 	targetLfoFreq = 2000*PI/flickerPeriod;
-
+	
 	float mSize = ofMap(analogVals[1], 40,250, 0,1, true);
 	float sHue = ofMap(analogVals[2], 40,255, 0,255, true);
 	
 	varVar = ofMap(analogVals[3], 40,250, 0,20, true);
-
+	
     unsigned int readImage = ofMap(analogVals[4], 40,250, 0,20, true);
 	if(readImage != whichImage){
 		stringstream ss;
@@ -71,13 +71,13 @@ void GeometricScene::update(){
 		myImage.loadImage(ss.str());
 		whichImage = readImage;
 	}
-
+	
     
     // overall sound volume
 	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
-
+	
 	unsigned char mShape = ((*digitalVal)>>3)&0x07;
-
+	
 	shapeColor = ofColor::fromHsb(sHue, 255, 100);
 	myMorphable.setSize(mSize);
 	myMorphable.setType(mShape);
@@ -92,34 +92,30 @@ void GeometricScene::draw(){
 		// turn on the shapes, turn background off
 		if(turnOn == true){
 			ofBackground(bgndColor);
-            ofSetHexColor(0xFFFFFFFF);
-            glEnable(GL_COLOR_LOGIC_OP);
-            glLogicOp(GL_XOR);
-            myImage.draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth(),ofGetHeight()-1);
-            glDisable(GL_COLOR_LOGIC_OP);
 			myMorphable.setColor(shapeColor);
 		}
 		// turn off shapes, turn background on
 		else{
 			ofBackground(shapeColor);
-            ofSetHexColor(0xFFFFFFFF);
-            glEnable(GL_COLOR_LOGIC_OP);
-            glLogicOp(GL_XOR);
-            myImage.draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth()-1,ofGetHeight()-1);
-            glDisable(GL_COLOR_LOGIC_OP);
 			myMorphable.setColor(bgndColor);
-		}
-		
-		// finally, draw the shapes
-		// lazy !! accessing globals here!!
-		for(int i=100; i<ofGetHeight(); i+=200){
-			for(int j=100; j<ofGetWidth(); j+=200){
-				myMorphable.draw(j,i,varVar);
-			}
 		}
 		// update flicker variables
 		lastUpdate = soundTime;
 		turnOn = !turnOn;
+	}
+
+	ofSetHexColor(0xFFFFFFFF);
+	glEnable(GL_COLOR_LOGIC_OP);
+	glLogicOp(GL_XOR);
+	myImage.draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth(),ofGetHeight()-1);
+	glDisable(GL_COLOR_LOGIC_OP);
+
+	/////// draw every frame
+	// lazy !! accessing globals here!!
+	for(int i=100; i<ofGetHeight(); i+=200){
+		for(int j=100; j<ofGetWidth(); j+=200){
+			myMorphable.draw(j,i,varVar);
+		}
 	}
 }
 
@@ -142,15 +138,15 @@ void GeometricScene::audioOut( float * output, int bufferSize, int nChannels, in
 	for(int i=0; (i<bufferSize)&&(inCnt > outCnt); i++){
 		// update soundTime variable (this is what keeps track of total time)
 		soundTime += 1.0/48000;
-
+		
 		// very unstable
 		//currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 1.0/48000);
-
+		
 		// unstable enough for awesomeness
 		currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 0.001);
-
+		
 		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
-
+		
 		// TODO: test this
 		for(int j=0; j<nChannels; j++){
 			output[nChannels*i+j] = soundBuffer[(outCnt*NUM_IN_CHANNELS+(j%NUM_IN_CHANNELS))%BUF_LEN]*lfoVolume*overallVolume;
