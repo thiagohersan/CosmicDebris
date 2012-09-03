@@ -5,7 +5,7 @@ SimpleParticle::SimpleParticle(){
 	//ofPoint loc, vel, acc;	
 	myColor = ofColor(0xFFFFFFFF);
 	myRadius = 30;
-	velVal = ofRandom(-2,2);
+	velVal = ofRandom(-2.0,2.0);
 
 	//////
 	pos.set(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
@@ -22,18 +22,17 @@ ofVec2f SimpleParticle::getPos() {
 void SimpleParticle::setColor(ofColor c) {
     myColor = c;
 }
-void SimpleParticle::setColorAndRadius(ofColor c, float r){
-	myColor = c;
-	myRadius = r;
-}
 void SimpleParticle::setRadius(float r) {
 	myRadius = r;
 }
-void SimpleParticle::setMaxVel(float vv) {
-	velVal = ofClamp(vv, -3, 3);
-}
 void SimpleParticle::resetPos() {
-	velVal = ofRandom(-2,2);
+	velVal = ofRandom(-2.0,2.0);
+	pos.set(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
+	vel.set(0,0);
+}
+void SimpleParticle::reset(float vv, float r) {
+	myRadius = r;
+	velVal = ofRandom(-vv,vv);
 	pos.set(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
 	vel.set(0,0);
 }
@@ -50,7 +49,7 @@ bool SimpleParticle::isDead() {
 void SimpleParticle::setTarget(ofVec2f tv) {
 	// unit vector towards target??
     vel = pos - tv;
-    if (vel.squareLength() > 1) {
+    if (vel.squareLength() > 1){
 		vel.normalize();
     }
     vel *= velVal;
@@ -60,6 +59,7 @@ void SimpleParticle::setTarget(ofVec2f tv) {
 void SimpleParticle::update() {
     pos += vel;
 }
+
 void SimpleParticle::draw() {
 	ofSetColor(myColor);
 	ofFill();
@@ -67,4 +67,13 @@ void SimpleParticle::draw() {
 	ofNoFill();
 	ofCircle(pos, myRadius);
 }
+void SimpleParticle::draw(ofColor c) {
+    myColor = c;
+	ofSetColor(myColor);
+	ofFill();
+	ofCircle(pos, myRadius);
+	ofNoFill();
+	ofCircle(pos, myRadius);
+}
+
 

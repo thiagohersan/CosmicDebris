@@ -13,15 +13,14 @@ public:
 	ofVec2f getPos();
 	void setColor(ofColor c);
 	void setRadius(float r);
-	void setColorAndRadius(ofColor c, float r);
-	void setMaxVel(float vv);
-	bool isDead();
 	void setTarget(ofVec2f tv);
 	void resetPos();
-	
+	void reset(float vv, float r);
+	bool isDead();
+
 	void update();
 	void draw();
-
+	void draw(ofColor c);
 private:
 	ofVec2f pos, vel;	
 	ofColor myColor;
