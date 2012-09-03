@@ -42,7 +42,7 @@ void ParticleScene::update(){
 	 analog[1] = particle size
 	 analog[2] = particle color
 	 analog[3] = particle alpha
-	 analog[4] = ...
+	 analog[4] = particle max velocity
 	 analog[5] = overall volume
 	 digital[0] = ...
 	 digital[1,2] = which kind of flicker
@@ -61,31 +61,29 @@ void ParticleScene::update(){
 	float pAlpha = ofMap(analogVals[3], 40,250, 16,255, true);
 	theColor = ofColor::fromHsb(theHue, 255, 255, pAlpha);
 
-	// ????
-	//   number of particles? particle velocity? number of groups?
-	//sineVolume = ofMap(analogVals[4], 40,250, 0.0,1.0, true);
-	
+	// particle max velocity
+	float pVel = ofMap(analogVals[4], 40,250, 1.0,5.0, true);
+
 	// overall sound volume
 	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
-	
+
 	// what kind of flicker
 	whichFlicker = ((*digitalVal)>>3)&0x03;
-	
+
 	// iterate over the particles, set target and size
 	int ai = 0;
-	for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it){
+	for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it, ++ai){
 		// check for dead ones...
 		if((*it).isDead() == true){
-			(*it).resetPos();
+			// if dead, reset their position, velocity and radius
+			(*it).reset(pVel, pSize);
 		}
 		// set random group target (every frame?)
 		(*it).setTarget(myTargets.at(ai/(numParts/numGroups)));
-		// set radius and update (every frame, we call update() every frame anyways...)
-		(*it).setRadius(pSize);
+		// update (every frame)
 		(*it).update();
-		ai++;
 	}
-	
+
 	//   TODO: for all groups
 	//       update target a little bit
 }
@@ -136,8 +134,7 @@ void ParticleScene::draw(){
 		
 		// iterate over the particles, set color and draw
 		for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it){
-			(*it).setColor(pColor);
-			(*it).draw();
+			(*it).draw(pColor);
 		}
 		// update flicker variables
 		lastUpdate = soundTime;
