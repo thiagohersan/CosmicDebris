@@ -1,7 +1,7 @@
 #include "ParticleScene.h"
 
 #define NUM_PARTS 1000
-#define NUM_GROUPS 1
+#define NUM_GROUPS 5
 
 ParticleScene::ParticleScene(unsigned char* aVals_, unsigned char* dVals_, int* dVal_){
 	// assign the pointers to the serial arrays
@@ -50,7 +50,7 @@ void ParticleScene::update(){
 	
 	// do updates on every frame.
 	flickerPeriod = ofMap(analogVals[0], 40,250, 250, 20, true);
-	targetLfoFreq = 2000*PI/flickerPeriod;
+	targetLfoFreq = 1000*PI/flickerPeriod;
 	
 	// size of particles
 	float pSize = ofMap(analogVals[1], 40,250, 1,100, true);
@@ -78,14 +78,12 @@ void ParticleScene::update(){
 			// if dead, reset their position, velocity and radius
 			(*it).reset(pVel, pSize);
 		}
+		// TODO: fix this !!
 		// set random group target (every frame?)
 		(*it).setTarget(myTargets.at(ai/(numParts/numGroups)));
 		// update (every frame)
 		(*it).update();
 	}
-
-	//   TODO: for all groups
-	//       update target a little bit
 }
 
 void ParticleScene::draw(){
