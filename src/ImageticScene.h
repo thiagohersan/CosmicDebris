@@ -13,9 +13,8 @@ public:
 	void onSerialEvent(serialEventArgs &a);
 protected:
 	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
+	float currLfoFreq, targetLfoFreq, overallVolume;
 private:
-	ofTrueTypeFont myFont;
-	ofColor myColor;
 };
 
 #endif
