@@ -10,7 +10,7 @@ Canvas::Canvas(ofBaseApp * that){
 	if(that != NULL){
 		// DEBUG: check in/out sample rates
 		mySoundStream.listDevices();
-		mySoundStream.setup(that, 2, 1, 48000, 512, 2);
+		mySoundStream.setup(that, 2, 2, 48000, 512, 2);
 		mySoundStream.setOutput(theScene);
 	}
 }
