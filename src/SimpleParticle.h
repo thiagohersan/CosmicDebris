@@ -22,7 +22,7 @@ public:
 	void draw();
 	void draw(ofColor c);
 private:
-	ofVec2f pos, vel;	
+	ofVec2f pos, target, vel;	
 	ofColor myColor;
 	float myRadius;
 	float velVal;
