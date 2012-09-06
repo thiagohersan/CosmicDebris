@@ -26,7 +26,7 @@
 class Canvas {
 	
 public:
-	Canvas(ofBaseApp * that=NULL);
+	Canvas();
 	~Canvas();
 	void update();
 	void draw();

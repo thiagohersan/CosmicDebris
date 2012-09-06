@@ -1,8 +1,7 @@
 #include "testApp.h"
 
 // inits object declared in the header file
-testApp::testApp() : c(this){
-}
+//testApp::testApp() : c(this){}
 
 // return true if it sets up a serial communication port
 bool testApp::setupSerial(){

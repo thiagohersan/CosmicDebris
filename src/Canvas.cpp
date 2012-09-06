@@ -1,19 +1,17 @@
 #include "Canvas.h"
 
-Canvas::Canvas(ofBaseApp * that){
+Canvas::Canvas(){
 	digitalVal = 0;
 	currScene = nextScene = SCENE_STATIC;
 	theScene = new StaticScene(analogVals, digitalVals, &digitalVal);
 	currState = STATE_FADING;
 	fadeAlpha = 255;
-	
-	if(that != NULL){
-		// setup stream
-		mySoundStream.listDevices();
-		mySoundStream.setup(that, 2, 1, 48000, 512, 2);
-		mySoundStream.setInput(theScene);
-		mySoundStream.setOutput(theScene);
-	}
+
+	// setup stream
+	mySoundStream.listDevices();
+	mySoundStream.setup(2, 1, 48000, 512, 2);
+	mySoundStream.setInput(theScene);
+	mySoundStream.setOutput(theScene);
 }
 
 Canvas::~Canvas(){

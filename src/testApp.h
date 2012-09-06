@@ -12,7 +12,7 @@
 class testApp : public ofBaseApp{
 	
 public:
-	testApp();
+	//testApp();
 	void setup();
 	void update();
 	void draw();
