@@ -24,7 +24,7 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
 
 	// colors
 	shapeColor = ofColor(255,255,255);
-	bgndColor = ofColor(0,0,0);
+	bgndColor = ofColor(255,255);
 	
 	// noise
 	varVar = 0;
@@ -43,29 +43,28 @@ void GeometricScene::update(){
 	 for this scene:
 	 analog[0] = flicker frequency, lfo frequency
 	 analog[1] = shape size
-	 analog[2] = bgnd color
-	 analog[3] = shape color
-	 analog[4] = shape variation randomness
+	 analog[2] = shape color
+	 analog[3] = shape variation randomness
+	 analog[4] = 
 	 analog[5] = overall volume
 	 digital[0,1,2] = which shape
 	 *****/
 	
 	// do updates on every frame. but the shapes only do any work if the new values are different
 	flickerPeriod = ofMap(analogVals[0], 40,250, 250, 20, true);
-	float mSize = ofMap(analogVals[1], 40,250, 0,1, true);
-	float bHue = ofMap(analogVals[2], 40,250, 0,255, true);
-	float sHue = ofMap(analogVals[3], 40,250, 0,255, true);
-	
-	varVar = ofMap(analogVals[4], 40,250, 0,20, true);
-	unsigned char mShape = ((*digitalVal)>>3)&0x07;
-
-	// overall sound volume
-	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
 	// target lfo frequency
 	targetLfoFreq = 2000*PI/flickerPeriod;
 
-	shapeColor = ofColor::fromHsb(sHue, 255, 255);
-	bgndColor  = ofColor::fromHsb(bHue, 255, 255);
+	float mSize = ofMap(analogVals[1], 40,250, 0,1, true);
+	float sHue = ofMap(analogVals[2], 40,255, 0,255, true);
+	
+	varVar = ofMap(analogVals[3], 40,250, 0,20, true);
+	// overall sound volume
+	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
+
+	unsigned char mShape = ((*digitalVal)>>3)&0x07;
+
+	shapeColor = ofColor::fromHsb(sHue, 255, 100);
 	myMorphable.setSize(mSize);
 	myMorphable.setType(mShape);
 	
@@ -77,13 +76,13 @@ void GeometricScene::draw(){
 	if((soundTime - lastUpdate)*1000 > flickerPeriod){
 		// turn on the shapes, turn background off
 		if(turnOn == true){
-			ofBackground(0,0,0,255);
+			ofBackground(bgndColor);
 			myMorphable.setColor(shapeColor);
 		}
 		// turn off shapes, turn background on
 		else{
-			ofBackground(bgndColor);
-			myMorphable.setColor(ofColor(255,255,255,255));
+			ofBackground(shapeColor);
+			myMorphable.setColor(bgndColor);
 		}
 		
 		// finally, draw the shapes
