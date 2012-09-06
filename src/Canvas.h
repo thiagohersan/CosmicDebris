@@ -50,7 +50,7 @@ protected:
 	int currScene, nextScene;
 	// fucking pointers... hooray!
 	Scene* theScene;
-	
+
 	// Stream to handle sounds from all scenes
 	ofSoundStream mySoundStream;
 };

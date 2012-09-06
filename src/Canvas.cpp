@@ -8,9 +8,10 @@ Canvas::Canvas(ofBaseApp * that){
 	fadeAlpha = 255;
 	
 	if(that != NULL){
-		// DEBUG: check in/out sample rates
+		// setup stream
 		mySoundStream.listDevices();
-		mySoundStream.setup(that, 2, 2, 48000, 512, 2);
+		mySoundStream.setup(that, 2, 1, 48000, 512, 2);
+		mySoundStream.setInput(theScene);
 		mySoundStream.setOutput(theScene);
 	}
 }
