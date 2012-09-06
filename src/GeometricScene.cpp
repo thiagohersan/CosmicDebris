@@ -28,7 +28,7 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
 	
 	// here we go...
 	// TODO: variable sized buffer please
-	soundBuffer = new float[1024];
+	soundBuffer = new float[1024*2];
 }
 
 GeometricScene::~GeometricScene(){
@@ -103,14 +103,15 @@ void GeometricScene::audioIn( float * input, int bufferSize, int nChannels, int 
 		//soundBuffer[i] *= 0.5;
 		//soundBuffer[i] += 0.5*input[i];
 		// TODO: memcopy ?
+		//soundBuffer[2*i+0] = input[2*i+2];
+		//soundBuffer[2*i+1] = input[2*i+3];
 		soundBuffer[2*i+0] = input[2*i+0];
 		soundBuffer[2*i+1] = input[2*i+1];
-		
 	}
 }
 
 void GeometricScene::audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){
-	for(int i=0; i<bufferSize; i++){
+	for(int i=0; (i<bufferSize); i++){
 		// update soundTime variable (this is what keeps track of total time)
 		soundTime += 1.0/48000;
 
@@ -122,8 +123,11 @@ void GeometricScene::audioOut( float * output, int bufferSize, int nChannels, in
 
 		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
 
-		output[2*i+0] = soundBuffer[2*i+0]*lfoVolume*overallVolume;
-		output[2*i+1] = soundBuffer[2*i+1]*lfoVolume*overallVolume;
+		//output[2*i+0] = soundBuffer[2*i+0]*lfoVolume*overallVolume;
+		//output[2*i+1] = soundBuffer[2*i+1]*lfoVolume*overallVolume;
+
+		output[2*i+0] = soundBuffer[2*i+0]*overallVolume;
+		output[2*i+1] = soundBuffer[2*i+1]*overallVolume;		
 	}
 }
 
