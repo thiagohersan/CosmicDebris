@@ -9,9 +9,9 @@ Canvas::Canvas(){
 
 	// setup stream
 	mySoundStream.listDevices();
-	mySoundStream.setup(2, 1, 48000, 512, 2);
 	mySoundStream.setInput(theScene);
 	mySoundStream.setOutput(theScene);
+	mySoundStream.setup(2, 1, 48000, 512, 2);
 }
 
 Canvas::~Canvas(){
