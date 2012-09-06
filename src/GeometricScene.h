@@ -23,6 +23,7 @@ protected:
 	void audioIn( float * input, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
 private:
 	float * soundBuffer;
+	unsigned long inCnt, outCnt;
 };
 
 #endif
