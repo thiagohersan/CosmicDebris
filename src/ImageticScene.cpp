@@ -8,13 +8,20 @@ ImageticScene::ImageticScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 	// flicker state variables
     lastUpdate = 0.0;
 	flickerPeriod = 100000;
+	soundTime = 0;
 	//
+	turnOn = false;
 	currLfoFreq = targetLfoFreq = overallVolume = 0.0;
-	// TODO: open video
-	
+	// load video
+	myVideoPlayer.loadMovie("niemeyer.mov");
+	myVideoPlayer.setVolume(0);
+	myVideoPlayer.setLoopState(OF_LOOP_NORMAL);
+	myVideoPlayer.play();
 }
 
-ImageticScene::~ImageticScene(){}
+ImageticScene::~ImageticScene(){
+	myVideoPlayer.close();
+}
 
 void ImageticScene::update(){
 	/***** reading the values from the serial
@@ -32,13 +39,30 @@ void ImageticScene::update(){
 	
 	// do updates on every frame.
 	flickerPeriod = ofMap(analogVals[0], 40,250, 250, 20, true);
-	targetLfoFreq = 2000*PI/flickerPeriod;
+	targetLfoFreq = 1000*PI/flickerPeriod;
 	// overall sound volume
 	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
+	
+	//
+	myVideoPlayer.update();
 }
 
+// cheap inverting: glBlendFunc(GL_ONE_MINUS_SRC_COLOR, GL_ZERO);
 void ImageticScene::draw(){
-	// TODO: draw video frame to screen
+	if((soundTime-lastUpdate)*1000 > flickerPeriod){
+		turnOn = !turnOn;
+		lastUpdate = soundTime;
+	}
+
+	// draw video frame to screen
+	//ofClear(0,0,0,255);
+	ofBackground(turnOn?255:0);
+	ofSetHexColor(0xFFFFFFFF);
+
+	glEnable(GL_COLOR_LOGIC_OP);
+	glLogicOp(GL_XOR);
+	myVideoPlayer.draw(ofGetWidth()/2, ofGetHeight()/2);
+	glDisable(GL_COLOR_LOGIC_OP);
 }
 
 // TODO: fill this out
@@ -55,8 +79,8 @@ void ImageticScene::audioOut( float * output, int bufferSize, int nChannels, int
 		
 		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
 		
-		//output[2*i+0] = soundBuffer[2*i+0]*lfoVolume*overallVolume;
-		//output[2*i+1] = soundBuffer[2*i+1]*lfoVolume*overallVolume;
+		output[2*i+0] = sin(2*PI*60*soundTime)*lfoVolume*overallVolume;
+		output[2*i+1] = sin(2*PI*60*soundTime)*lfoVolume*overallVolume;
 	}
 }
 
