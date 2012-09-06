@@ -28,8 +28,6 @@ ParticleScene::ParticleScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 	// pick random targets
 	for(int i=0; i<numGroups; i++){
 		myTargets.push_back(ofVec2f(ofRandom(ofGetWidth()), ofRandom(ofGetHeight())));
-		//myTargets.push_back(ofVec2f(ofRandom(0.1*ofGetWidth(), 0.9*ofGetWidth()), ofRandom(0.1*ofGetHeight(), 0.9*ofGetHeight())));
-		//myTargets.push_back(ofVec2f(ofGetWidth()/2, ofGetHeight()/2));
 	}	
 }
 
@@ -56,10 +54,10 @@ void ParticleScene::update(){
 	float pSize = ofMap(analogVals[1], 40,250, 1,100, true);
 	
 	// color/hue control
-	float theHue = ofMap(analogVals[2], 40,250, 0,255, true);
+	float theHue = ofMap(analogVals[2], 40,255, 0,255, true);
 	// alpha control a := [1,255]
 	float pAlpha = ofMap(analogVals[3], 40,250, 16,255, true);
-	theColor = ofColor::fromHsb(theHue, 255, 255, pAlpha);
+	theColor = ofColor::fromHsb(theHue, 255, 155, pAlpha);
 
 	// particle max velocity
 	float pVel = ofMap(analogVals[4], 40,250, 1.0,5.0, true);
@@ -93,7 +91,7 @@ void ParticleScene::draw(){
 		// set colors... sigh...
 		// default particle color (white with alpha)
 		ofColor pColor(255,theColor.a);
-		// default background (black)
+		// default background (white)
 		ofBackground(0,255);
 		switch (whichFlicker) {
 			case FLICKER_NEITHER:{
@@ -118,11 +116,12 @@ void ParticleScene::draw(){
 			}
 				break;
 			case FLICKER_BOTH:{
-				// flicker bgnd+particle on/off color+white/black+color
+				// flicker bgnd+particle on/off color+white/white+color
 				if(turnOn){
 					ofBackground(theColor.r,theColor.g,theColor.b,255);
 				}
 				else{
+					ofBackground(255,255);
 					pColor = theColor;
 				}
 			}
