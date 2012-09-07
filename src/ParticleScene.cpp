@@ -28,7 +28,13 @@ ParticleScene::ParticleScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 	// pick random targets
 	for(int i=0; i<numGroups; i++){
 		myTargets.push_back(ofVec2f(ofRandom(ofGetWidth()), ofRandom(ofGetHeight())));
-	}	
+	}
+	// set random targets
+	int ai = 0;
+	for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it, ++ai){
+		// set random group target
+		(*it).setTarget(myTargets.at(ai/(numParts/numGroups)));
+	}
 }
 
 ParticleScene::~ParticleScene(){}
@@ -69,16 +75,12 @@ void ParticleScene::update(){
 	whichFlicker = ((*digitalVal)>>3)&0x03;
 
 	// iterate over the particles, set target and size
-	int ai = 0;
-	for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it, ++ai){
+	for(vector<SimpleParticle>::iterator it = myParts.begin(); it<myParts.end(); ++it){
 		// check for dead ones...
 		if((*it).isDead() == true){
 			// if dead, reset their position, velocity and radius
 			(*it).reset(pVel, pSize);
 		}
-		// TODO: fix this !!
-		// set random group target (every frame?)
-		(*it).setTarget(myTargets.at(ai/(numParts/numGroups)));
 		// update (every frame)
 		(*it).update();
 	}

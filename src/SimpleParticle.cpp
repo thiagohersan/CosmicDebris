@@ -53,16 +53,18 @@ bool SimpleParticle::isDead() {
 
 void SimpleParticle::setTarget(ofVec2f tv) {
 	target.set(tv);
-	// unit vector towards target??
-    vel = pos - tv;
+}
+
+void SimpleParticle::update() {
+	// calculate velocity as a unit vector towards target
+    vel = pos - target;
     if (vel.squareLength() > 1){
 		vel.normalize();
 		vel *= velVal;
     }
-}
-
-void SimpleParticle::update() {
-    pos += vel;
+	
+	// update position
+	pos += vel;
 }
 
 void SimpleParticle::draw() {
