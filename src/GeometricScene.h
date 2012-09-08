@@ -24,6 +24,8 @@ protected:
 private:
 	float * soundBuffer;
 	unsigned long inCnt, outCnt;
+    unsigned int whichImage;
+    ofImage myImage;
 };
 
 #endif

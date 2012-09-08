@@ -32,6 +32,10 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
 	// here we go...
 	soundBuffer = new float[BUF_LEN*NUM_IN_CHANNELS];
 	inCnt = outCnt = 0;
+    
+    // background image
+    myImage.loadImage("image0.jpg");
+    whichImage = 0;
 }
 
 GeometricScene::~GeometricScene(){
@@ -45,7 +49,7 @@ void GeometricScene::update(){
 	 analog[1] = shape size
 	 analog[2] = shape color
 	 analog[3] = shape variation randomness
-	 analog[4] = 
+	 analog[4] = which image to use as background
 	 analog[5] = overall volume
 	 digital[0,1,2] = which shape
 	 *****/
@@ -59,7 +63,17 @@ void GeometricScene::update(){
 	float sHue = ofMap(analogVals[2], 40,255, 0,255, true);
 	
 	varVar = ofMap(analogVals[3], 40,250, 0,20, true);
-	// overall sound volume
+
+    unsigned int readImage = ofMap(analogVals[4], 40,250, 0,20, true);
+	if(readImage != whichImage){
+		stringstream ss;
+		ss << "image" << readImage << ".jpg";
+		myImage.loadImage(ss.str());
+		whichImage = readImage;
+	}
+
+    
+    // overall sound volume
 	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
 
 	unsigned char mShape = ((*digitalVal)>>3)&0x07;
@@ -71,17 +85,28 @@ void GeometricScene::update(){
 	myMorphable.update();
 }
 
+
 void GeometricScene::draw(){
 	// time to update !!
 	if((soundTime - lastUpdate)*1000 > flickerPeriod){
 		// turn on the shapes, turn background off
 		if(turnOn == true){
 			ofBackground(bgndColor);
+            ofSetHexColor(0xFFFFFFFF);
+            glEnable(GL_COLOR_LOGIC_OP);
+            glLogicOp(GL_XOR);
+            myImage.draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth(),ofGetHeight()-1);
+            glDisable(GL_COLOR_LOGIC_OP);
 			myMorphable.setColor(shapeColor);
 		}
 		// turn off shapes, turn background on
 		else{
 			ofBackground(shapeColor);
+            ofSetHexColor(0xFFFFFFFF);
+            glEnable(GL_COLOR_LOGIC_OP);
+            glLogicOp(GL_XOR);
+            myImage.draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth()-1,ofGetHeight()-1);
+            glDisable(GL_COLOR_LOGIC_OP);
 			myMorphable.setColor(bgndColor);
 		}
 		
