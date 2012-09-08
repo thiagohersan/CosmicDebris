@@ -23,7 +23,7 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
 	currLfoFreq = targetLfoFreq = 0.0;
 	
 	// colors
-	shapeColor = ofColor(255,255,255);
+	shapeColor = ofColor(255,255);
 	bgndColor = ofColor(255,255);
 	
 	// noise
@@ -91,23 +91,24 @@ void GeometricScene::draw(){
 	if((soundTime - lastUpdate)*1000 > flickerPeriod){
 		// turn on the shapes, turn background off
 		if(turnOn == true){
-			ofBackground(bgndColor);
+            bgndColor = ofColor(255,255);
 			myMorphable.setColor(shapeColor);
 		}
 		// turn off shapes, turn background on
 		else{
-			ofBackground(shapeColor);
-			myMorphable.setColor(bgndColor);
+			bgndColor = shapeColor;
+			myMorphable.setColor(ofColor(255,255));
 		}
 		// update flicker variables
 		lastUpdate = soundTime;
 		turnOn = !turnOn;
 	}
 
+    ofBackground(bgndColor);
 	ofSetHexColor(0xFFFFFFFF);
 	glEnable(GL_COLOR_LOGIC_OP);
 	glLogicOp(GL_XOR);
-	myImage.draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth(),ofGetHeight()-1);
+	myImage.draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth()-1,ofGetHeight()-1);
 	glDisable(GL_COLOR_LOGIC_OP);
 
 	/////// draw every frame
