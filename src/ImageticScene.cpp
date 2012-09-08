@@ -13,10 +13,11 @@ ImageticScene::ImageticScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 	turnOn = false;
 	currLfoFreq = targetLfoFreq = overallVolume = 0.0;
 	// load video
-	myVideoPlayer.loadMovie("niemeyer.mov");
+	myVideoPlayer.loadMovie("video0.mov");
 	myVideoPlayer.setVolume(0);
 	myVideoPlayer.setLoopState(OF_LOOP_NORMAL);
 	myVideoPlayer.play();
+    whichVideo = 0;
 }
 
 ImageticScene::~ImageticScene(){
@@ -28,7 +29,7 @@ void ImageticScene::update(){
 	 for this scene:
 	 analog[0] = flicker frequency, lfo frequency 
 	 analog[1] = ...
-	 analog[2] = ...
+	 analog[2] = which video
 	 analog[3] = ...
 	 analog[4] = ...
 	 analog[5] = overall volume
@@ -42,7 +43,20 @@ void ImageticScene::update(){
 	targetLfoFreq = 1000*PI/flickerPeriod;
 	// overall sound volume
 	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
-	
+
+    // which video to load
+    unsigned int readVideo = ofMap(analogVals[2], 40,250, 0,20, true);
+	if(readVideo != whichVideo){
+		stringstream ss;
+		ss << "video" << readVideo << ".mov";
+        myVideoPlayer.stop();
+        myVideoPlayer.loadMovie(ss.str());
+        myVideoPlayer.setVolume(0);
+        myVideoPlayer.setLoopState(OF_LOOP_NORMAL);
+        myVideoPlayer.play();
+		whichVideo = readVideo;
+	}
+    
 	//
 	myVideoPlayer.update();
 }

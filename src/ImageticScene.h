@@ -18,6 +18,7 @@ protected:
 	float currLfoFreq, targetLfoFreq, overallVolume;
 private:
 	ofVideoPlayer myVideoPlayer;
+    unsigned int whichVideo;
 };
 
 #endif
