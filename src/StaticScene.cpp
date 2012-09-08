@@ -74,7 +74,7 @@ void StaticScene::update(){
 	// size of pixel groups in image
 	float sSize = ofMap(analogVals[1], 40,250, 0,maxLog2, true);
 
-	// sound frequency control f := [60,200]
+	// sample selector
 	unsigned int readSample = ofMap(analogVals[2], 30,250, 0,20, true);
 	if(readSample != whichSample){
 		stringstream ss;
