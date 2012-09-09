@@ -54,8 +54,7 @@ void testApp::setup(){
 	ofAddListener(serialEvent, &c, &Canvas::onSerialEvent);
 	
 	// screen setup
-	//ofSetCircleResolution(100);
-	// TODO: bug?? only on nvidia geforce 320m
+	//ofSetCircleResolution(64);
 	ofSetBackgroundAuto(false);
 	ofSetVerticalSync(true);
 	ofEnableSmoothing();
