@@ -34,7 +34,9 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
 	inCnt = outCnt = 0;
     
     // background image
-    myImage.loadImage("image0.jpg");
+    imageChu.loadImage("image0.jpg");
+	imageCha.loadImage("image1.jpg");
+	myImage = &imageChu;
     whichImage = 0;
 }
 
@@ -64,11 +66,14 @@ void GeometricScene::update(){
 	
 	varVar = ofMap(analogVals[3], 40,250, 0,20, true);
 	
-    unsigned int readImage = ofMap(analogVals[4], 40,250, 0,20, true);
+    unsigned int readImage = ofMap(analogVals[4], 40,250, 0,10, true);
 	if(readImage != whichImage){
 		stringstream ss;
-		ss << "image" << readImage << ".jpg";
-		myImage.loadImage(ss.str());
+		ss << "image" << 2*readImage+0 << ".jpg";
+		imageChu.loadImage(ss.str());
+		ss.str("");
+		ss << "image" << 2*readImage+1 << ".jpg";
+		imageCha.loadImage(ss.str());
 		whichImage = readImage;
 	}
 	
@@ -93,22 +98,25 @@ void GeometricScene::draw(){
 		if(turnOn == true){
             bgndColor = ofColor(255,255);
 			myMorphable.setColor(shapeColor);
+			myImage = &imageChu;
 		}
 		// turn off shapes, turn background on
 		else{
 			bgndColor = shapeColor;
 			myMorphable.setColor(ofColor(255,255));
+			myImage = &imageCha;
 		}
 		// update flicker variables
 		lastUpdate = soundTime;
 		turnOn = !turnOn;
 	}
 
-    ofBackground(bgndColor);
+    //ofBackground(bgndColor);
+	ofBackground(255);
 	ofSetHexColor(0xFFFFFFFF);
 	glEnable(GL_COLOR_LOGIC_OP);
 	glLogicOp(GL_XOR);
-	myImage.draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth()-1,ofGetHeight()-1);
+	myImage->draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth()-1,ofGetHeight()-1);
 	glDisable(GL_COLOR_LOGIC_OP);
 
 	/////// draw every frame

@@ -25,7 +25,8 @@ private:
 	float * soundBuffer;
 	unsigned long inCnt, outCnt;
     unsigned int whichImage;
-    ofImage myImage;
+    ofImage imageChu, imageCha;
+	ofImage * myImage;
 };
 
 #endif
