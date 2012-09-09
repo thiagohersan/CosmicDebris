@@ -29,6 +29,9 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
 	// noise
 	varVar = 0;
 	
+	// sine
+	sineOn = 0x0;
+
 	// here we go...
 	soundBuffer = new float[BUF_LEN*NUM_IN_CHANNELS];
 	inCnt = outCnt = 0;
@@ -53,6 +56,7 @@ void GeometricScene::update(){
 	 analog[3] = shape variation randomness
 	 analog[4] = which image to use as background
 	 analog[5] = overall volume
+	 digital[0] = turn on sine
 	 digital[0,1,2] = which shape
 	 *****/
 	
@@ -82,7 +86,8 @@ void GeometricScene::update(){
 	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
 	
 	unsigned char mShape = ((*digitalVal)>>3)&0x07;
-	
+	sineOn = ((*digitalVal)>>5)&0x01;
+
 	shapeColor = ofColor::fromHsb(sHue, 255, 100);
 	myMorphable.setSize(mSize);
 	myMorphable.setType(mShape);
@@ -111,8 +116,8 @@ void GeometricScene::draw(){
 		turnOn = !turnOn;
 	}
 
-    //ofBackground(bgndColor);
-	ofBackground(255);
+    ofBackground(bgndColor);
+	//ofBackground(255);
 	ofSetHexColor(0xFFFFFFFF);
 	glEnable(GL_COLOR_LOGIC_OP);
 	glLogicOp(GL_XOR);
@@ -128,7 +133,6 @@ void GeometricScene::draw(){
 	}
 }
 
-// TODO: fill this out
 void GeometricScene::audioIn( float * input, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){
 	for(int i=0; (i<bufferSize); i++){
 		// TODO: memcopy ?
@@ -144,6 +148,26 @@ void GeometricScene::audioIn( float * input, int bufferSize, int nChannels, int 
 }
 
 void GeometricScene::audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){
+	for(int i=0; (i<bufferSize); i++){
+		// update soundTime variable (this is what keeps track of total time)
+		soundTime += 1.0/48000;
+		
+		// very unstable
+		//currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 1.0/48000);
+		
+		// unstable enough for awesomeness
+		currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 0.001);
+		
+		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
+		
+		// TODO: test this
+		for(int j=0; j<nChannels; j++){
+			output[nChannels*i+j] = sin(2*PI*60*soundTime)*lfoVolume*sineOn*overallVolume;
+		}
+	}
+}
+
+void GeometricScene::audioOutFromIn( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount ){
 	for(int i=0; (i<bufferSize)&&(inCnt > outCnt); i++){
 		// update soundTime variable (this is what keeps track of total time)
 		soundTime += 1.0/48000;
