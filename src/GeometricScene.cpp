@@ -137,8 +137,6 @@ void GeometricScene::audioIn( float * input, int bufferSize, int nChannels, int 
 	for(int i=0; (i<bufferSize); i++){
 		// TODO: memcopy ?
 		// TODO: test this
-		//soundBuffer[2*i+0] = input[2*i+2];
-		//soundBuffer[2*i+1] = input[2*i+3];
 		// interleave on buffer
 		for(int j=0; j<nChannels; j++){
 			soundBuffer[inCnt%BUF_LEN] = input[nChannels*i+j];
@@ -151,16 +149,15 @@ void GeometricScene::audioOut( float * output, int bufferSize, int nChannels, in
 	for(int i=0; (i<bufferSize); i++){
 		// update soundTime variable (this is what keeps track of total time)
 		soundTime += 1.0/48000;
-		
+
 		// very unstable
 		//currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 1.0/48000);
-		
+
 		// unstable enough for awesomeness
 		currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 0.001);
-		
+
 		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
-		
-		// TODO: test this
+
 		for(int j=0; j<nChannels; j++){
 			output[nChannels*i+j] = sin(2*PI*60*soundTime)*lfoVolume*sineOn*overallVolume;
 		}
