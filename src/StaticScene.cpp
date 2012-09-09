@@ -75,7 +75,7 @@ void StaticScene::update(){
 	float sSize = ofMap(analogVals[1], 40,250, 0,maxLog2, true);
 
 	// sample selector
-	unsigned int readSample = ofMap(analogVals[2], 30,250, 0,20, true);
+	unsigned int readSample = ofMap(analogVals[2], 30,250, 0,0, true);
 	if(readSample != whichSample){
 		stringstream ss;
 		ss << "sound" << readSample << ".mp3"; 
