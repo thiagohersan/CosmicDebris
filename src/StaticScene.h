@@ -18,7 +18,6 @@ protected:
 	float lastSize;
 	float currFreq, targetFreq, currLfoFreq, targetLfoFreq, overallVolume, sineVolume;
 	void audioOut( float * output, int bufferSize, int nChannels, int deviceID, long unsigned long tickCount );
-	ofSoundPlayer mySoundPlayer;
 private:
 	float maxLog2;
 	unsigned char whichSound;
