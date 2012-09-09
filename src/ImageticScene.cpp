@@ -19,8 +19,9 @@ ImageticScene::ImageticScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 	myVideoPlayer.play();
     whichVideo = 0;
 	//
-	mySoundPlayer.loadSound("yuri_cosmic_debris_chop.mp3");
-	mySoundPlayer.setMultiPlay(true);
+	mySoundPlayer.loadSound("yuri_cosmic_debris_chop_amp.mp3");
+	mySoundPlayer.setMultiPlay(false);
+	mySoundPlayer.play();
 }
 
 ImageticScene::~ImageticScene(){
@@ -48,7 +49,7 @@ void ImageticScene::update(){
 	overallVolume = ofMap(analogVals[5], 40,250, 0.0,1.2, true);
 
     // which video to load
-    unsigned int readVideo = ofMap(analogVals[2], 40,250, 0,20, true);
+    unsigned int readVideo = ofMap(analogVals[2], 40,250, 0,4, true);
 	if(readVideo != whichVideo){
 		stringstream ss;
 		ss << "video" << readVideo << ".mov";
@@ -78,7 +79,7 @@ void ImageticScene::draw(){
 
 	glEnable(GL_COLOR_LOGIC_OP);
 	glLogicOp(GL_XOR);
-	myVideoPlayer.draw(ofGetWidth()/2, ofGetHeight()/2);
+	myVideoPlayer.draw(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()-1, ofGetHeight()-1);
 	glDisable(GL_COLOR_LOGIC_OP);
 }
 
@@ -95,9 +96,12 @@ void ImageticScene::audioOut( float * output, int bufferSize, int nChannels, int
 		currLfoFreq = ofLerp(currLfoFreq, targetLfoFreq, 0.001);
 		
 		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
-		
-		output[2*i+0] = sin(2*PI*60*soundTime)*lfoVolume*overallVolume;
-		output[2*i+1] = sin(2*PI*60*soundTime)*lfoVolume*overallVolume;
+
+		// set volume on sampler
+		mySoundPlayer.setVolume(lfoVolume*overallVolume);
+
+		output[2*i+0] = sin(2*PI*60*soundTime)*lfoVolume*overallVolume*0.7;
+		output[2*i+1] = sin(2*PI*60*soundTime)*lfoVolume*overallVolume*0.7;
 	}
 }
 
