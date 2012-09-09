@@ -37,8 +37,8 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
 	inCnt = outCnt = 0;
     
     // background image
-    imageChu.loadImage("image0.jpg");
-	imageCha.loadImage("image1.jpg");
+    imageChu.loadImage("image0.png");
+	imageCha.loadImage("image1.png");
 	myImage = &imageChu;
     whichImage = 0;
 
@@ -75,13 +75,13 @@ void GeometricScene::update(){
 	
 	varVar = ofMap(analogVals[3], 40,250, 0,20, true);
 	
-    unsigned int readImage = ofMap(analogVals[4], 40,250, 0,10, true);
+    unsigned int readImage = ofMap(analogVals[4], 40,250, 0,12, true);
 	if(readImage != whichImage){
 		stringstream ss;
-		ss << "image" << 2*readImage+0 << ".jpg";
+		ss << "image" << 2*readImage+0 << ".png";
 		imageChu.loadImage(ss.str());
 		ss.str("");
-		ss << "image" << 2*readImage+1 << ".jpg";
+		ss << "image" << 2*readImage+1 << ".png";
 		imageCha.loadImage(ss.str());
 		whichImage = readImage;
 	}
@@ -126,7 +126,8 @@ void GeometricScene::draw(){
 	ofSetHexColor(0xFFFFFFFF);
 	glEnable(GL_COLOR_LOGIC_OP);
 	glLogicOp(GL_XOR);
-	myImage->draw(ofGetWidth()/2,ofGetHeight()/2,ofGetWidth()-1,ofGetHeight()-1);
+	float sF = min(ofGetWidth()/myImage->width, ofGetHeight()/myImage->height);
+	myImage->draw(ofGetWidth()/2,ofGetHeight()/2,myImage->width*sF-1,myImage->height*sF-1);
 	glDisable(GL_COLOR_LOGIC_OP);
 
 	/////// draw every frame
