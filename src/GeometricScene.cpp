@@ -41,6 +41,11 @@ GeometricScene::GeometricScene(unsigned char* aVals_, unsigned char* dVals_, int
 	imageCha.loadImage("image1.jpg");
 	myImage = &imageChu;
     whichImage = 0;
+
+	///
+	mySoundPlayer.loadSound("yuri_cosmic_debris_chop_amp.mp3");
+	mySoundPlayer.setMultiPlay(true);
+	mySoundPlayer.play();
 }
 
 GeometricScene::~GeometricScene(){
@@ -158,8 +163,11 @@ void GeometricScene::audioOut( float * output, int bufferSize, int nChannels, in
 
 		float lfoVolume = 0.5*(sin(currLfoFreq*soundTime)+1.0);
 
+		// set volume on sampler
+		mySoundPlayer.setVolume(lfoVolume*overallVolume);
+
 		for(int j=0; j<nChannels; j++){
-			output[nChannels*i+j] = sin(2*PI*60*soundTime)*lfoVolume*sineOn*overallVolume;
+			output[nChannels*i+j] = sin(2*PI*60*soundTime)*lfoVolume*sineOn*overallVolume*0.7;
 		}
 	}
 }
