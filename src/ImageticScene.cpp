@@ -18,6 +18,9 @@ ImageticScene::ImageticScene(unsigned char* aVals_, unsigned char* dVals_, int* 
 	myVideoPlayer.setLoopState(OF_LOOP_NORMAL);
 	myVideoPlayer.play();
     whichVideo = 0;
+	//
+	mySoundPlayer.loadSound("yuri_cosmic_debris_chop.mp3");
+	mySoundPlayer.setMultiPlay(true);
 }
 
 ImageticScene::~ImageticScene(){
