@@ -152,11 +152,11 @@ void Morphable::setType(int type){
 
 // set the target size in pixels
 //    size:=[0,1],
-//    currSize:=[50,400]
-//    targetSize:=[50,400]
+//    currSize:=[10,400]
+//    targetSize:=[10,400]
 void Morphable::setSize(float size){
 	// not elegant most
-	float mappedSize = ofMap(size, 0, 1, 30, 400);
+	float mappedSize = ofMap(size, 0, 1, 1, 400);
 	
 	// if the new size is different than the current size, go morph
 	if(fabs(mappedSize - targetSize) > 1) {
